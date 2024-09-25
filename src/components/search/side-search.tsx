@@ -6,7 +6,6 @@ import useSWR from "swr";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getSpotifyData } from "@/lib/getter";
 import { Album, SearchResult, SearchResultType, Track } from "@/lib/definitions";
 import { MagnifyingGlassIcon, Square2StackIcon, UsersIcon } from "@heroicons/react/24/outline";
 
@@ -18,7 +17,8 @@ const fetcher = async (params: { q?: string; artist?: string; album?: string; })
     params.album && `album:${params.album}`,
   ];
   const query = queryArray.filter(Boolean).join(' ');
-  const results = await getSpotifyData(`/search?q=${encodeURIComponent(query)}&type=track,album&limit=50&market=JP`);  
+  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);  
+  const results = await response.json();
   return results;
 };
 
