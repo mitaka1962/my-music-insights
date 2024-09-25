@@ -143,9 +143,6 @@ function SearchResults({
   );
 
   if (isLoading) return (
-    // <div className="grow flex w-full justify-center items-center">
-    //   <span className="loading loading-spinner loading-lg text-gray-500"></span>
-    // </div>  
     <div className="animate-skeleton-fadein" >
       {resultSkeleton}
       {resultSkeleton}
