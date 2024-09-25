@@ -1,0 +1,55 @@
+export async function getSpotifyData(endpoint: string) {
+    const client_id = process.env.CLIENT_ID;
+    const client_secret = process.env.CLIENT_SECRET;
+    
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: { 
+            'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'grant_type=client_credentials',
+        cache: 'no-store',
+    });
+    const res_data = await res.json();
+
+    // Spotify Web APIへのリクエストを送る
+    const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
+        headers: { 'Authorization': 'Bearer ' + res_data.access_token, 'Accept-Language': 'ja' }
+    });
+
+    if (!response.ok) {
+        const info = await response.json();
+        throw new Error(`${info.error.status}: ${info.error.message}`);
+    }
+
+    // wait for testing
+    // await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const data = await response.json();
+    return data;
+}
+
+export async function getTrackInfoData(id: string) {
+    if (!id) return null;
+    const data = await getSpotifyData(`/tracks/${id}`);
+    return data;
+}
+
+export async function getAlbumInfoData(id: string) {
+    if (!id) return null;
+    const data = await getSpotifyData(`/albums/${id}`);
+    return data;
+}
+
+export async function getTrackFeaturesData(id: string) {
+    if (!id) return null;
+    const data = await getSpotifyData(`/audio-features/${id}`);
+    return data;
+}
+
+export async function getSeveralTracksFeaturesData(id: string) {
+    if (!id) return null;
+    const data = await getSpotifyData(`/audio-features?ids=${id}`);
+    return data;
+}

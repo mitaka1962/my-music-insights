@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* NProgress: remove box-shadow */
+#nprogress .bar {
+  box-shadow: none !important;
+}
+#nprogress .peg {
+  box-shadow: none !important;
+}
