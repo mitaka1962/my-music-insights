@@ -30,17 +30,17 @@ export default async function AlbumInfo({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <div className="flex-none max-w-[240px]">
+        <div className="flex-none w-1/3 max-w-[260px] flex flex-col gap-4">
           <Image
             className="shadow-md rounded-sm md:rounded"
             src={catalogData.images[0].url}
             alt={`${catalogData.name}のカバー画像`}
-            width={240}
-            height={240} />
+            width={260}
+            height={260} />
         </div>
-        <div className="grow card card-bordered bg-base-100 min-h-[240px]">
+        <div className="grow w-2/3 card card-bordered bg-base-100">
           <div className="card-body gap-6">
-          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
               <span className="w-fit px-3 py-0.5 bg-gray-100 rounded-md font-medium text-sm">Album</span>
               <h1 className="card-title text-4xl font-extrabold">{catalogData.name}</h1>
             </div>   
@@ -58,7 +58,7 @@ export default async function AlbumInfo({
                 <div className="grow">{catalogData.release_date}</div>
               </div>  
             </div>
-            <div className="flex gap-2 justify-end">
+            <div className="flex justify-end">
               <SpotifyButton href={catalogData.external_urls.spotify} />
             </div> 
           </div>
