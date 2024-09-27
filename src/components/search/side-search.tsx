@@ -1,14 +1,13 @@
 'use client'
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import useSWR from "swr";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Album, SearchResult, SearchResultType, Track } from "@/lib/definitions";
-import { MagnifyingGlassIcon, Square2StackIcon, UsersIcon } from "@heroicons/react/24/outline";
-
+import SearchInput from "./search-input";
 
 const fetcher = async (params: { q?: string; artist?: string; album?: string; }) => { 
   const queryArray = [
@@ -24,16 +23,10 @@ const fetcher = async (params: { q?: string; artist?: string; album?: string; })
 
 export default function SideSearch() {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
 
   // Type of displayed search results: track or album
   const [type, setType] = useState<SearchResultType>('track');
 
-  const searchKeyword = useRef<HTMLInputElement>(null);
-  const artistKeyword = useRef<HTMLInputElement>(null);
-  const albumKeyword = useRef<HTMLInputElement>(null);
-  
   // Fetch data from the Spotify API's search endpoint
   const {data, error, isLoading} = useSWR(
     (searchParams.has('q') || searchParams.has('artist') || searchParams.has('album'))
@@ -41,58 +34,12 @@ export default function SideSearch() {
     fetcher
   );
 
-  const searchBoxList = [
-    { label: '', icon: null, placeholder: 'Search tracks...', queryKey: 'q', ref: searchKeyword},
-    { label: 'Artist', icon: UsersIcon, placeholder: 'Artist name', queryKey: 'artist', ref: artistKeyword},
-    { label: 'Album', icon: Square2StackIcon, placeholder: 'Album name', queryKey: 'album', ref: albumKeyword},
-  ];
-
-  // Search button's click event handler
-  const handleSearch = () => {
-    const query = searchKeyword.current?.value.trim();
-    const artist = artistKeyword.current?.value.trim();
-    const album = albumKeyword.current?.value.trim();
-
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (artist) params.append('artist', artist);
-    if (album) params.append('album', album);
-
-    router.push(`${pathname}?${params}`);
-  }
-
   return (
     <div className="flex flex-col px-1.5 h-full divide-y">
-      <div className="flex-none flex flex-col px-2 py-4">
-        {searchBoxList.map(
-          (item) => {
-            const Icon = item.icon;
-            return (
-              <label key={item.queryKey} className="form-control w-full">
-                {item.label ? (
-                  <div className="label pt-2.5 pb-1 justify-start gap-1">
-                    {Icon ? <Icon className="w-4 text-gray-600" /> : null}
-                    <span className="label-text text-gray-600">{item.label}</span>
-                  </div>
-                ) : null}
-                <input
-                  type="text"
-                  placeholder={item.placeholder}
-                  className="input input-bordered input-sm w-full"
-                  defaultValue={searchParams.get(item.queryKey) ?? ''} 
-                  ref={item.ref} />
-              </label>
-            )
-          }
-        )}
-        <div className="mt-6">
-          <button className="btn btn-sm w-full h-9 gap-1" onClick={handleSearch}>
-            <MagnifyingGlassIcon className="w-4" />
-            Search
-          </button>
-        </div>
+      <div className="flex-none">
+        <SearchInput searchParams={searchParams} />
       </div>
-      <div className="flex flex-col grow">
+      <div className="grow flex flex-col">
         <div className="flex-none flex gap-2 px-2 pt-4">
           <button
             className={clsx("btn btn-sm rounded-full", {"btn-neutral" : type === 'track'})}
