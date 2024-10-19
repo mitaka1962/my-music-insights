@@ -36,7 +36,9 @@ export default async function AlbumInfo({
             src={catalogData.images[0].url}
             alt={`${catalogData.name}のカバー画像`}
             width={260}
-            height={260} />
+            height={260}
+            priority={true}
+            unoptimized={true} />
         </div>
         <div className="grow w-2/3 card card-bordered bg-base-100">
           <div className="card-body gap-6">

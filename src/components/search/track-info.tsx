@@ -28,7 +28,9 @@ export default async function TrackInfo({
             src={catalogData.album.images[0].url}
             alt={`${catalogData.name}のカバー画像`}
             width={260}
-            height={260} />
+            height={260}
+            priority={true}
+            unoptimized={true} />
           <PreviewButton src={catalogData.preview_url} />
         </div>
         <div className="grow w-2/3 card card-bordered bg-base-100">
