@@ -11,19 +11,19 @@ export default function FeaturesInfo({
 }) {
   const featuresList = [
     { name: 'acousticness', value: features.acousticness,
-      desc: '楽曲がアコースティックである可能性を表してます' },
+      desc: 'トラックがアコースティックである（電気楽器を使用していない）可能性を表してます。' },
     { name: 'danceability', value: features.danceability,
-      desc: '楽曲がダンスに適している度合いを表してます' },
+      desc: 'トラックがダンスに適している度合いを表してます。' },
     { name: 'energy', value: features.energy,
-      desc: '楽曲の激しさや活気の度合いを表しています' },
+      desc: 'トラックの激しさや活気の度合いを表しています。' },
     { name: 'instrumentalness', value: features.instrumentalness,
-      desc: '楽曲がインストゥルメンタル（ボーカル無し）である可能性を表しています' },
+      desc: 'トラックがインストゥルメンタル（ボーカル無し）である可能性を表しています。' },
     { name: 'liveness', value: features.liveness,
-      desc: '楽曲がライブ演奏である可能性を表しています' },
+      desc: 'トラックがライブ演奏である可能性を表しています。' },
     { name: 'speechiness', value: features.speechiness,
-      desc: '' },
+      desc: 'トラック内を話し言葉が占める度合いを表しています。' },
     { name: 'valence', value: features.valence,
-      desc: '楽曲のポジティブさを表しています' },
+      desc: 'トラックのポジティブさの度合いを表しています。' },
   ];
 
   return (
