@@ -3,9 +3,7 @@ import TrackInfo from "@/components/search/track-info";
 export default function Page({
   params,
 }: {
-  params: {
-    id: string;
-  }
+  params: { id: string; };
 }) {
   return (
     <main className="p-4">

@@ -14,6 +14,7 @@ export interface Track {
 export interface Album {
   id: string;
   name: string;
+  album_type: 'album' | 'single' | 'compilation';
   images: Array<{
     url: string;
   }>;

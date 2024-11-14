@@ -31,10 +31,11 @@ export default async function TrackInfo({
         </div>
         <div className="grow w-2/3">
           <MetadataInfo
-            type="Track"
+            type="track"
             title={catalogData.name}
             artists={catalogData.artists.map((artist: { name: string; }) => artist.name).join(', ')}
             albumName={catalogData.album.name}
+            albumId={catalogData.album.id}
             releaseDate={catalogData.album.release_date}
             spotifyUrl={catalogData.external_urls.spotify} />
         </div>

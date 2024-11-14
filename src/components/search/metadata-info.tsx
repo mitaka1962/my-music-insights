@@ -1,17 +1,21 @@
 import SpotifyButton from "@/components/search/spotify-button";
+import { capitalizeFirstLetter } from "@/lib/utils";
+import Link from "next/link";
 
 export default function MetadataInfo({
   type,
   title,
   artists,
   albumName,
+  albumId,
   releaseDate,
   spotifyUrl,
 }: {
-  type: 'Track' | 'Album';
+  type: 'track' | 'album' | 'single' | 'compilation';
   title: string;
   artists: string;
   albumName?: string;
+  albumId?: string;
   releaseDate: number;
   spotifyUrl: string;
 }) {
@@ -19,7 +23,7 @@ export default function MetadataInfo({
     <div className="card card-bordered">
       <div className="card-body gap-6">
         <div className="flex flex-col gap-3">
-          <span className="w-fit px-3 py-0.5 bg-gray-100 rounded-md font-medium text-sm">{type}</span>
+          <span className="w-fit px-3 py-0.5 bg-gray-100 rounded-md font-medium text-sm">{capitalizeFirstLetter(type)}</span>
           <h1 className="card-title text-4xl font-extrabold">{title}</h1>
         </div>   
         <div className="grow flex flex-col gap-2">
@@ -30,7 +34,9 @@ export default function MetadataInfo({
           {albumName ? (
             <div className="flex gap-2">
               <div className="badge badge-outline flex-none mt-0.5">Album</div>
-              <div className="grow">{albumName}</div>
+              <div className="grow">
+                <Link className="link link-hover" href={`/search/album/${albumId ?? ''}`}>{albumName}</Link>
+              </div>
             </div>
           ) : null}
           <div className="flex gap-2">

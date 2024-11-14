@@ -36,7 +36,7 @@ export default async function AlbumInfo({
         </div>
         <div className="grow w-2/3">
           <MetadataInfo
-            type="Album"
+            type={catalogData.album_type}
             title={catalogData.name}
             artists={catalogData.artists.map((artist: { name: string; }) => artist.name).join(', ')}
             releaseDate={catalogData.release_date}

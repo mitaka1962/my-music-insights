@@ -28,3 +28,8 @@ export const calculateSumFeature = (features: AudioFeaturesResult[], key: keyof 
 export const calculateAverageFeature = (features: AudioFeaturesResult[], key: keyof AudioFeaturesResult) => {
   return calculateSumFeature(features, key) / features.length;
 };
+
+export const capitalizeFirstLetter = (str: string) => {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
