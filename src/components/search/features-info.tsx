@@ -6,7 +6,7 @@ export default function FeaturesInfo({
   info,
   features,
 }: {
-  info: Array<{name: string, value: number | string}>
+  info: Array<{name: string, value: number | string}>;
   features: AudioFeatures;
 }) {
   const featuresList = [

@@ -10,13 +10,14 @@ export default async function AlbumInfo({
   id: string;
 }) {
   const catalogData = await getAlbumInfoData(id);
-  const trakcIds = catalogData.tracks.items.map((item: {id: string}) => item.id).join(',')
-  const { audio_features } = await getSeveralTracksFeaturesData(trakcIds);
+  const trackIds = catalogData.tracks.items.map((item: {id: string}) => item.id).join(',')
+  const { audio_features } = await getSeveralTracksFeaturesData(trackIds);
 
   const infoList = [
     { name: 'Total Duration', value: convertTime(calculateSumFeature(audio_features, 'duration_ms')) },
     { name: 'Average BPM', value: Math.round(calculateAverageFeature(audio_features, 'tempo')) }
   ];
+
   const averageFeaturesData = {
     acousticness: calculateAverageFeature(audio_features, 'acousticness'),
     danceability: calculateAverageFeature(audio_features, 'danceability'),
@@ -40,7 +41,7 @@ export default async function AlbumInfo({
             priority={true}
             unoptimized={true} />
         </div>
-        <div className="grow w-2/3 card card-bordered bg-base-100">
+        <div className="grow w-2/3 card card-bordered">
           <div className="card-body gap-6">
             <div className="flex flex-col gap-3">
               <span className="w-fit px-3 py-0.5 bg-gray-100 rounded-md font-medium text-sm">Album</span>

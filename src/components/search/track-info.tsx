@@ -10,8 +10,10 @@ export default async function TrackInfo({
 }: {
   id: string;
 }) {
-  const catalogData = await getTrackInfoData(id);
-  const featuresData = await getTrackFeaturesData(id);
+  const [catalogData, featuresData] = await Promise.all([
+    getTrackInfoData(id),
+    getTrackFeaturesData(id),
+  ]);
 
   const infoList = [
     { name: 'Duration', value: convertTime(featuresData.duration_ms) },

@@ -8,7 +8,7 @@ import ProgressBarProvider from "@/components/progress-bar-provider";
 
 export const metadata: Metadata = {
   title: "MyMusic Insights",
-  description: "自分の音楽傾向を把握するためのアプリ。",
+  description: "自分の好みの音楽の傾向を把握するためのWebアプリ",
 };
 
 export default function RootLayout({
@@ -29,7 +29,9 @@ export default function RootLayout({
                 <div className="flex-none w-44 h-full">
                   <SideNav />
                 </div>
-                <div className="flex-auto min-w-0 h-full">{children}</div>
+                <div className="flex-auto min-w-0 h-full">
+                  {children}
+                </div>
               </div>
             </div>  
           </ProgressBarProvider>
