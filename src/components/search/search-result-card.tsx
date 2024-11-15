@@ -5,20 +5,18 @@ import Link from "next/link";
 export default function SearchResultCard({
   id,
   type,
-  params,
   image_url,
   name,
   artist_name,
 }: {
   id: string;
   type: SearchResultType;
-  params: URLSearchParams;
   image_url: string;
   name: string;
   artist_name: string;
 }) {
   return (
-    <Link href={`/search/${type}/${id}?${params}`}>
+    <Link href={`/search/${type}/${id}`}>
       <div className="flex gap-3 py-2 px-2 rounded hover:bg-gray-200 hover:opacity-80">
         <div className="flex-none h-[64px] overflow-hidden aspect-square rounded-sm border">
           <Image

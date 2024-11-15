@@ -3,16 +3,9 @@
 import { useState } from "react";
 import clsx from "clsx";
 import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
-import { SearchResultType } from "@/lib/definitions";
+import { SearchResultType, SpotifySearchParams } from "@/lib/definitions";
 import SearchInput from "./search-input";
 import SearchResults from "./search-results";
-
-const searchParamsToObjct = (params: URLSearchParams) => {
-  if (params.has('q') || params.has('artist') || params.has('album'))
-    return Object.fromEntries(params.entries());
-  return null;
-};
 
 const fetcher = async (params: { q?: string; artist?: string; album?: string; }) => { 
   const queryArray = [
@@ -27,18 +20,19 @@ const fetcher = async (params: { q?: string; artist?: string; album?: string; })
 };
 
 export default function SideSearch() {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
+  const [spotifySearchParams, setSpotifySearchParams] = useState<SpotifySearchParams | null>(null);
 
   // Type of displayed search results: track or album
   const [type, setType] = useState<SearchResultType>('track');
 
   // Fetch data from the Spotify API's search endpoint
-  const {data, error, isLoading} = useSWR(searchParamsToObjct(searchParams), fetcher);
+  const {data, error, isLoading} = useSWR(spotifySearchParams, fetcher);
 
   return (
     <div className="flex flex-col px-1.5 h-full divide-y">
       <div className="flex-none">
-        <SearchInput searchParams={searchParams} />
+        <SearchInput spotifySearchParams={spotifySearchParams} setSpotifySearchParams={setSpotifySearchParams} />
       </div>
       <div className="grow flex flex-col">
         <div className="flex-none flex gap-2 px-2 pt-4">
@@ -54,8 +48,7 @@ export default function SideSearch() {
             results={data}
             isLoading={isLoading}
             error={error}
-            type={type}
-            params={searchParams} />
+            type={type} />
         </div>
       </div>      
     </div>

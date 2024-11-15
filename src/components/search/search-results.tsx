@@ -6,19 +6,18 @@ export default function SearchResults({
   isLoading,
   error,
   type,
-  params,
 }: {
   results: SearchResult;
   isLoading: boolean;
   error: any;
   type: SearchResultType;
-  params: URLSearchParams;
 }) {
   const displayMessage = (msg: string) => (
     <div className="text-gray-600 h-16 w-full flex items-center justify-center">
       {msg}
     </div>
   );
+
   const resultSkeleton = (
     <div className="flex gap-3 py-2 px-2">
       <div className="skeleton w-[64px] h-[64px] rounded-md"></div>
@@ -53,7 +52,6 @@ export default function SearchResults({
               key={item.id}
               type={type}
               id={item.id}
-              params={params}
               image_url={item.album.images[item.album.images.length - 1].url}
               name={item.name}
               artist_name={item.artists[0].name} />
@@ -74,7 +72,6 @@ export default function SearchResults({
               key={item.id}
               type={type}
               id={item.id}
-              params={params}
               image_url={item.images[item.images.length - 1].url}
               name={item.name}
               artist_name={item.artists[0].name} />

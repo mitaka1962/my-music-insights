@@ -13,7 +13,7 @@ const links = [
 
 export default function SideNav() {
   const pathname = usePathname();
-  const initialPath = pathname.split('/')[1];   // '/search/track/[id]' => 'search'
+  const initialPath = pathname.split('/')[1];   // ex) '/search/track/[id]' => 'search'
 
   return (
     <div className="flex flex-col w-full h-full px-2 py-4 border-r">

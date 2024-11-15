@@ -1,4 +1,4 @@
-import { AudioFeaturesResult } from '@/lib/definitions'
+import { AudioFeaturesResult, SpotifySearchParams } from '@/lib/definitions'
 
 export const convertTime = (msec: number) => {
   const totalSec = Math.floor(msec / 1000);
@@ -33,3 +33,7 @@ export const capitalizeFirstLetter = (str: string) => {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const isEmpty = (obj: SpotifySearchParams) => {
+  return Object.keys(obj).length === 0;
+}
