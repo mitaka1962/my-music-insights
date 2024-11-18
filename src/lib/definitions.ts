@@ -48,3 +48,9 @@ export type AudioFeaturesResult = AudioFeatures & {
   tempo: number
   loudness: number
 };
+
+export type SpotifySearchParams = {
+  q?: string;
+  artist?: string;
+  album?: string;
+}

@@ -2,20 +2,21 @@ export async function getSpotifyData(endpoint: string) {
     const client_id = process.env.CLIENT_ID;
     const client_secret = process.env.CLIENT_SECRET;
     
-    const res = await fetch('https://accounts.spotify.com/api/token', {
+    // get an access token (expired in 3600s)
+    const accessTokenResponse = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: { 
             'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: 'grant_type=client_credentials',
-        cache: 'no-store',
+        cache: 'no-store'
     });
-    const res_data = await res.json();
-
-    // Spotify Web APIへのリクエストを送る
+    const accessTokenData = await accessTokenResponse.json();
+    
+    // send a request for Spotify Web API
     const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
-        headers: { 'Authorization': 'Bearer ' + res_data.access_token, 'Accept-Language': 'ja' }
+        headers: { 'Authorization': 'Bearer ' + accessTokenData.access_token, 'Accept-Language': 'ja' }
     });
 
     if (!response.ok) {

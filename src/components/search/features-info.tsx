@@ -33,7 +33,7 @@ export default function FeaturesInfo({
           {info.map(
             (item) => (
               <div key={item.name} className="flex gap-2 items-center">
-                <div className="text-gray-600 text-sm">{item.name}:</div>
+                <div className="text-base-content/80 text-sm">{item.name}:</div>
                 <div className="text-2xl font-bold">
                   {item.value}
                 </div>
@@ -44,10 +44,10 @@ export default function FeaturesInfo({
           {featuresList.map(
             (item) => (
               <div key={item.name}>
-                <div className="flex gap-1 items-center text-gray-600 text-sm">
+                <div className="flex gap-1 items-center text-base-content/80 text-sm">
                   {item.name}
                   <div className="tooltip" data-tip={item.desc}>
-                    <InformationCircleIcon className="w-4 hover:text-black" />
+                    <InformationCircleIcon className="w-4 hover:text-black dark:hover:text-white" />
                   </div>
                 </div>
                 <div className="flex gap-4 items-center">

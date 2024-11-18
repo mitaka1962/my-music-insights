@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getTrackInfoData, getTrackFeaturesData } from "@/lib/getter";
 import FeaturesInfo from "@/components/search/features-info";
 import { convertTime, getKeyString } from "@/lib/utils";
@@ -33,7 +32,7 @@ export default async function TrackInfo({
           <MetadataInfo
             type="track"
             title={catalogData.name}
-            artists={catalogData.artists.map((artist: { name: string; }) => artist.name).join(', ')}
+            artists={catalogData.artists}
             albumName={catalogData.album.name}
             albumId={catalogData.album.id}
             releaseDate={catalogData.album.release_date}

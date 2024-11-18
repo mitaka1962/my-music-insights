@@ -1,25 +1,65 @@
 import { Album, SearchResult, SearchResultType, Track } from "@/lib/definitions";
 import SearchResultCard from "./search-result-card";
+import { getSpotifyImageUrl } from "@/lib/utils";
 
 export default function SearchResults({
   results,
   isLoading,
   error,
   type,
-  params,
 }: {
-  results: SearchResult;
+  results: SearchResult | undefined;
   isLoading: boolean;
   error: any;
   type: SearchResultType;
-  params: URLSearchParams;
 }) {
-  const displayMessage = (msg: string) => (
-    <div className="text-gray-600 h-16 w-full flex items-center justify-center">
-      {msg}
-    </div>
+  // loading
+  if (isLoading) {
+    return (
+      <div className="animate-skeleton-fadein" >
+        <ResultSkeleton />
+        <ResultSkeleton />
+        <ResultSkeleton />
+      </div>
+    );
+  }
+
+  // error
+  if (error) {
+    console.log(error.message);
+    return <DisplayMessage>{'Error has occurred! \u{1F62E}'}</DisplayMessage>;
+  }
+
+  // success
+  const items = (type === 'track') ? results?.tracks.items : results?.albums.items;
+
+  return (items?.length === 0) ? (
+    <DisplayMessage>{'No results found... \u{1F622}'}</DisplayMessage>
+  ) : (
+    <>
+      {items?.map((item: Track | Album) => (
+        <SearchResultCard 
+          key={item.id}
+          type={type}
+          id={item.id}
+          image_url={getSpotifyImageUrl(item)}
+          name={item.name}
+          artist_name={item.artists[0].name} />
+      ))}
+    </>
   );
-  const resultSkeleton = (
+}
+
+function DisplayMessage({ children }: { children: string }) {
+  return (
+    <div className="text-base-content/80 h-16 w-full flex items-center justify-center">
+      {children}
+    </div>
+  );  
+}
+
+function ResultSkeleton() {
+  return (
     <div className="flex gap-3 py-2 px-2">
       <div className="skeleton w-[64px] h-[64px] rounded-md"></div>
       <div className="flex-auto min-w-0 h-[64px] flex flex-col py-1 gap-2">
@@ -28,59 +68,4 @@ export default function SearchResults({
       </div>
     </div>
   );
-
-  if (isLoading) return (
-    <div className="animate-skeleton-fadein" >
-      {resultSkeleton}
-      {resultSkeleton}
-      {resultSkeleton}
-    </div>
-  );
-
-  if (error) {
-    console.log(error.message);
-    return displayMessage('Error has occurred! \u{1F62E}');
-  }
-
-  if (type === 'track') {
-    return (results?.tracks.items.length === 0) ? (
-      displayMessage('No results found... \u{1F622}')
-    ) : (
-      <>
-        {results?.tracks.items.map(
-          (item: Track) => (
-            <SearchResultCard 
-              key={item.id}
-              type={type}
-              id={item.id}
-              params={params}
-              image_url={item.album.images[item.album.images.length - 1].url}
-              name={item.name}
-              artist_name={item.artists[0].name} />
-          )
-        )}
-      </>
-    );
-  }
-
-  if (type === 'album') {
-    return (results?.albums.items.length === 0) ? (
-      displayMessage('No results found... \u{1F622}')
-    ) : (
-      <>
-        {results?.albums.items.map(
-          (item: Album) => (
-            <SearchResultCard
-              key={item.id}
-              type={type}
-              id={item.id}
-              params={params}
-              image_url={item.images[item.images.length - 1].url}
-              name={item.name}
-              artist_name={item.artists[0].name} />
-          )
-        )}
-      </>
-    );
-  }
 }
