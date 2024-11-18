@@ -10,10 +10,10 @@ export async function getSpotifyData(endpoint: string) {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: 'grant_type=client_credentials',
-        next: { revalidate: 3300 }
+        cache: 'no-store'
     });
-    const accessTokenData = await accessTokenResponse.json();    
-
+    const accessTokenData = await accessTokenResponse.json();
+    
     // send a request for Spotify Web API
     const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
         headers: { 'Authorization': 'Bearer ' + accessTokenData.access_token, 'Accept-Language': 'ja' }
