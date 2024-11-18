@@ -1,5 +1,4 @@
 import { SpotifySearchParams } from "@/lib/definitions";
-import { isEmpty } from "@/lib/utils";
 import { MagnifyingGlassIcon, Square2StackIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { Dispatch, SetStateAction, useRef } from "react";
 
@@ -7,8 +6,8 @@ export default function SearchInput({
   spotifySearchParams,
   setSpotifySearchParams,
 }: {
-  spotifySearchParams: SpotifySearchParams | null;
-  setSpotifySearchParams: Dispatch<SetStateAction<SpotifySearchParams | null>>;
+  spotifySearchParams: SpotifySearchParams;
+  setSpotifySearchParams: Dispatch<SetStateAction<SpotifySearchParams>>;
 }) {  
   const searchKeyword = useRef<HTMLInputElement>(null);
   const artistKeyword = useRef<HTMLInputElement>(null);
@@ -31,7 +30,7 @@ export default function SearchInput({
     if (artist) params['artist'] = artist;
     if (album) params['album'] = album;
 
-    setSpotifySearchParams(isEmpty(params) ? null : params);
+    setSpotifySearchParams(params);
   }
 
   return (
@@ -43,14 +42,14 @@ export default function SearchInput({
             <label key={item.label} className="form-control w-full">
               {item.label ? (
                 <div className="label pt-2.5 pb-1 justify-start gap-1">
-                  {Icon ? <Icon className="w-4 text-gray-600" /> : null}
-                  <span className="label-text text-gray-600">{item.label}</span>
+                  {Icon ? <Icon className="w-4 text-base-content/80" /> : null}
+                  <span className="label-text text-base-content/80">{item.label}</span>
                 </div>
               ) : null}
               <input
                 type="text"
                 placeholder={item.placeholder}
-                className="input input-bordered input-sm w-full"
+                className="input input-bordered input-sm w-full dark:placeholder:opacity-30"
                 defaultValue={item.value ?? ''} 
                 ref={item.ref} />
             </label>

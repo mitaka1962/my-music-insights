@@ -13,7 +13,9 @@ export default function MetadataInfo({
 }: {
   type: 'track' | 'album' | 'single' | 'compilation';
   title: string;
-  artists: string;
+  artists: Array<{
+    name: string;
+  }>;
   albumName?: string;
   albumId?: string;
   releaseDate: number;
@@ -23,13 +25,13 @@ export default function MetadataInfo({
     <div className="card card-bordered">
       <div className="card-body gap-6">
         <div className="flex flex-col gap-3">
-          <span className="w-fit px-3 py-0.5 bg-gray-100 rounded-md font-medium text-sm">{capitalizeFirstLetter(type)}</span>
+          <span className="w-fit px-3 py-0.5 bg-base-content/5 rounded-md font-medium text-sm">{capitalizeFirstLetter(type)}</span>
           <h1 className="card-title text-4xl font-extrabold">{title}</h1>
         </div>   
         <div className="grow flex flex-col gap-2">
           <div className="flex gap-2">
             <div className="badge badge-outline flex-none mt-0.5">Artist</div>
-            <div className="grow">{artists}</div>
+            <div className="grow">{artists.map((artist: { name: string; }) => artist.name).join(', ')}</div>
           </div>
           {albumName ? (
             <div className="flex gap-2">

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import clsx from "clsx";
-import useSWR from "swr";
 import { SearchResultType, SpotifySearchParams } from "@/lib/definitions";
 import SearchInput from "./search-input";
 import SearchResults from "./search-results";
+import { isEmpty } from "@/lib/utils";
+import useSWRImmutable from "swr/immutable";
 
-const fetcher = async (params: { q?: string; artist?: string; album?: string; }) => { 
+const fetcher = async (params: SpotifySearchParams) => {
   const queryArray = [
     params.q,
     params.artist && `artist:${params.artist}`,
@@ -20,22 +21,24 @@ const fetcher = async (params: { q?: string; artist?: string; album?: string; })
 };
 
 export default function SideSearch() {
-  // const searchParams = useSearchParams();
-  const [spotifySearchParams, setSpotifySearchParams] = useState<SpotifySearchParams | null>(null);
+  const [spotifySearchParams, setSpotifySearchParams] = useState<SpotifySearchParams>({});
 
   // Type of displayed search results: track or album
   const [type, setType] = useState<SearchResultType>('track');
 
   // Fetch data from the Spotify API's search endpoint
-  const {data, error, isLoading} = useSWR(spotifySearchParams, fetcher);
+  const {data, error, isLoading} = useSWRImmutable(
+    isEmpty(spotifySearchParams) ? null : spotifySearchParams,
+    fetcher
+  );  
 
   return (
-    <div className="flex flex-col px-1.5 h-full divide-y">
+    <div className="flex flex-col min-h-full divide-y divide-base-content/15 px-1.5 py-4">
       <div className="flex-none">
         <SearchInput spotifySearchParams={spotifySearchParams} setSpotifySearchParams={setSpotifySearchParams} />
       </div>
       <div className="grow flex flex-col">
-        <div className="flex-none flex gap-2 px-2 pt-4">
+        <div className="flex-none flex gap-2 mx-2 my-4">
           <button
             className={clsx("btn btn-sm rounded-full", {"btn-neutral" : type === 'track'})}
             onClick={() => setType('track')}>トラック</button>
@@ -43,7 +46,7 @@ export default function SideSearch() {
             className={clsx("btn btn-sm rounded-full", {"btn-neutral" : type === 'album'})}
             onClick={() => setType('album')}>アルバム</button>
         </div>
-        <div className="grow flex flex-col py-4">
+        <div className="grow flex flex-col">
           <SearchResults
             results={data}
             isLoading={isLoading}

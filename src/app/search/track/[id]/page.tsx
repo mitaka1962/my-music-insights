@@ -6,7 +6,7 @@ export default function Page({
   params: { id: string; };
 }) {
   return (
-    <main className="p-4">
+    <main>
       <TrackInfo id={params.id} />
     </main>
   );

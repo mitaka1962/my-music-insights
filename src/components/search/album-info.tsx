@@ -38,7 +38,7 @@ export default async function AlbumInfo({
           <MetadataInfo
             type={catalogData.album_type}
             title={catalogData.name}
-            artists={catalogData.artists.map((artist: { name: string; }) => artist.name).join(', ')}
+            artists={catalogData.artists}
             releaseDate={catalogData.release_date}
             spotifyUrl={catalogData.external_urls.spotify} />
         </div>

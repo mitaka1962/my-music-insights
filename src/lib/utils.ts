@@ -1,4 +1,4 @@
-import { AudioFeaturesResult, SpotifySearchParams } from '@/lib/definitions'
+import { Album, AudioFeaturesResult, SpotifySearchParams, Track } from '@/lib/definitions'
 
 export const convertTime = (msec: number) => {
   const totalSec = Math.floor(msec / 1000);
@@ -19,6 +19,12 @@ export const getKeyString = (key: number, mode: number) => {
   return `${keyStr}\u{00A0}${modeStr}`;
 }
 
+export const getSpotifyImageUrl = (item: Track | Album) => {
+  if ('album' in item)
+    return item.album.images[item.album.images.length - 1].url;
+  return item.images[item.images.length - 1].url;
+}
+
 export const convertPercentage = (f: number) => Math.round(f * 100);
 
 export const calculateSumFeature = (features: AudioFeaturesResult[], key: keyof AudioFeaturesResult) => {
@@ -35,5 +41,11 @@ export const capitalizeFirstLetter = (str: string) => {
 };
 
 export const isEmpty = (obj: SpotifySearchParams) => {
-  return Object.keys(obj).length === 0;
+  return !obj.q && !obj.artist && !obj.album;
 }
+
+export const translateThemeName = (theme: string | undefined) => {
+  if (theme === 'light') return 'ライト';
+  if (theme === 'dark') return 'ダーク';
+  return 'システム'
+};

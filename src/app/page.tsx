@@ -1,5 +1,5 @@
 export default function Page() {
   return (
-    <p className="p-4">Home Page</p>
+    <p className="px-6 py-8">Home Page</p>
   );
 }

@@ -1,5 +1,4 @@
 import SideSearch from "@/components/search/side-search";
-import { Suspense } from "react";
 
 export default function Layout({
   children,
@@ -8,22 +7,12 @@ export default function Layout({
 }) {
   return (
     <div className="h-full w-full flex">
-      <main className="w-3/4 overflow-y-auto min-h-full">
+      <div className="w-3/4 overflow-y-auto min-h-full px-6 py-8">
         {children}
-      </main>
-      <div className="w-1/4 border-l overflow-y-scroll min-h-full">
-        <Suspense fallback={<LoadingSpinner />}>
-          <SideSearch />
-        </Suspense>        
       </div>
-    </div>
-  );
-}
-
-function LoadingSpinner() {
-  return (
-    <div className="flex w-full h-full justify-center items-center">
-      <span className="loading loading-spinner loading-lg text-gray-500"></span>
+      <div className="w-1/4 border-l border-base-content/15 overflow-y-scroll min-h-full">
+        <SideSearch />
+      </div>
     </div>
   );
 }
