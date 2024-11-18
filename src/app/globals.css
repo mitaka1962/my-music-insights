@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* NProgress: remove box-shadow */
+/* NProgress: change color with theme */
 #nprogress .bar {
-  box-shadow: none !important;
+  background-color: oklch(var(--bc)) !important;
 }
+/* NProgress: remove box-shadow */
 #nprogress .peg {
   box-shadow: none !important;
+}
+
+/* disable daisy UI's button animation */
+.btn {
+  @apply animate-none;
 }
