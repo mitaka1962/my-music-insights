@@ -11,19 +11,19 @@ export default function FeaturesInfo({
 }) {
   const featuresList = [
     { name: 'acousticness', value: features.acousticness,
-      desc: 'トラックがアコースティックである（電気楽器を使用していない）可能性を表してます。' },
+      desc: '楽曲がアコースティックである（電気楽器を使用していない）可能性を表してます。' },
     { name: 'danceability', value: features.danceability,
-      desc: 'トラックがダンスに適している度合いを表してます。' },
+      desc: '楽曲がダンスに適している度合いを表してます。' },
     { name: 'energy', value: features.energy,
-      desc: 'トラックの激しさや活気の度合いを表しています。' },
+      desc: '楽曲の激しさや活気の度合いを表しています。' },
     { name: 'instrumentalness', value: features.instrumentalness,
-      desc: 'トラックがインストゥルメンタル（ボーカル無し）である可能性を表しています。' },
+      desc: '楽曲がインストゥルメンタル（ボーカル無し）である可能性を表しています。' },
     { name: 'liveness', value: features.liveness,
-      desc: 'トラックがライブ演奏である可能性を表しています。' },
+      desc: '楽曲がライブ演奏である可能性を表しています。' },
     { name: 'speechiness', value: features.speechiness,
-      desc: 'トラック内を話し言葉が占める度合いを表しています。' },
+      desc: '楽曲内を話し言葉が占める度合いを表しています。' },
     { name: 'valence', value: features.valence,
-      desc: 'トラックのポジティブさの度合いを表しています。' },
+      desc: '楽曲のポジティブさの度合いを表しています。' },
   ];
 
   return (
@@ -46,7 +46,7 @@ export default function FeaturesInfo({
               <div key={item.name}>
                 <div className="flex gap-1 items-center text-base-content/80 text-sm">
                   {item.name}
-                  <div className="tooltip" data-tip={item.desc}>
+                  <div className="tooltip before:w-56" data-tip={item.desc}>
                     <InformationCircleIcon className="w-4 hover:text-black dark:hover:text-white" />
                   </div>
                 </div>

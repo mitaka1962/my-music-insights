@@ -1,14 +1,13 @@
 export interface Track {
   id: string;
   name: string;
-  album: {
-    images: Array<{
-      url: string;
-    }>;
-  };
+  album: Album;
   artists: Array<{
     name: string;
   }>;
+  type: string;
+  preview_url: string;
+  external_urls: { spotify: string; };
 }
 
 export interface Album {
@@ -21,6 +20,8 @@ export interface Album {
   artists: Array<{
     name: string;
   }>;
+  type: string;
+  release_date: string;
 }
 
 export type SearchResultType = 'track' | 'album'
@@ -54,3 +55,5 @@ export type SpotifySearchParams = {
   artist?: string;
   album?: string;
 }
+
+export type CardRenderProp = (result: Track | Album) => React.ReactNode;

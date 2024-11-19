@@ -1,9 +1,9 @@
-export default function Page() {
+export default function Page() {  
   return (
     <main>
       <div className="chat chat-end gap-y-4">
         <div className="chat-bubble animate-[fade-in-up-20_0.8s_ease_both_0s]">
-          曲名、アーティスト名、アルバム名などで<br/>
+          お気に入りの楽曲やアルバムを<br/>
           検索してみましょう！
         </div>
         <div className="chat-bubble animate-[fade-in-up-20_0.8s_ease_both_0.2s]">

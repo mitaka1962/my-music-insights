@@ -18,7 +18,7 @@ export default function MetadataInfo({
   }>;
   albumName?: string;
   albumId?: string;
-  releaseDate: number;
+  releaseDate: string;
   spotifyUrl: string;
 }) {
   return (
