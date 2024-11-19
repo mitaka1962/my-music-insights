@@ -23,7 +23,7 @@ export default function SearchResultCardForCreate({
       </button>
       {/* --modal-- */}
       <dialog id={`create_card_modal_${result.id}`} className="modal">
-        <div className="modal-box max-w-full w-fit">
+        <div className="modal-box max-w-[80%] w-fit">
           <h3 className="font-bold text-2xl px-2 pb-2 mb-4 border-b border-base-content/15">楽曲情報</h3>
           <div className="flex gap-4 px-2">
             <div className="flex-none w-1/3 max-w-[260px] flex flex-col gap-4">
