@@ -37,6 +37,12 @@ export async function getTrackInfoData(id: string) {
     return data;
 }
 
+export async function getSeveralTracksInfoData(ids: string) {
+    if (!ids) return null;
+    const data = await getSpotifyData(`/tracks?ids=${ids}`);
+    return data;
+}
+
 export async function getAlbumInfoData(id: string) {
     if (!id) return null;
     const data = await getSpotifyData(`/albums/${id}`);
@@ -49,8 +55,8 @@ export async function getTrackFeaturesData(id: string) {
     return data;
 }
 
-export async function getSeveralTracksFeaturesData(id: string) {
-    if (!id) return null;
-    const data = await getSpotifyData(`/audio-features?ids=${id}`);
+export async function getSeveralTracksFeaturesData(ids: string) {
+    if (!ids) return null;
+    const data = await getSpotifyData(`/audio-features?ids=${ids}`);
     return data;
 }

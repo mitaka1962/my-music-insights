@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import clsx from "clsx";
-import { SearchResultType, SpotifySearchParams } from "@/lib/definitions";
+import { SearchResultType, SpotifySearchParams, CardRenderProp } from "@/lib/definitions";
 import SearchInput from "./search-input";
 import SearchResults from "./search-results";
 import { isEmpty } from "@/lib/utils";
@@ -20,7 +20,13 @@ const fetcher = async (params: SpotifySearchParams) => {
   return results;
 };
 
-export default function SideSearch() {
+export default function SideSearch({
+  card,
+  disableAlbum = false,
+}: {
+  card: CardRenderProp;
+  disableAlbum?: boolean;
+}) {
   const [spotifySearchParams, setSpotifySearchParams] = useState<SpotifySearchParams>({});
 
   // Type of displayed search results: track or album
@@ -40,10 +46,15 @@ export default function SideSearch() {
       <div className="grow flex flex-col">
         <div className="flex-none flex gap-2 mx-2 my-4">
           <button
-            className={clsx("btn btn-sm rounded-full", {"btn-neutral" : type === 'track'})}
+            className={clsx("btn btn-sm rounded-full", {
+              "btn-neutral" : type === 'track',
+            })}
             onClick={() => setType('track')}>トラック</button>
           <button 
-            className={clsx("btn btn-sm rounded-full", {"btn-neutral" : type === 'album'})}
+            className={clsx("btn btn-sm rounded-full", {
+              "btn-neutral" : type === 'album',
+            })}
+            disabled={disableAlbum}
             onClick={() => setType('album')}>アルバム</button>
         </div>
         <div className="grow flex flex-col">
@@ -51,7 +62,8 @@ export default function SideSearch() {
             results={data}
             isLoading={isLoading}
             error={error}
-            type={type} />
+            type={type}
+            card={card} />
         </div>
       </div>      
     </div>

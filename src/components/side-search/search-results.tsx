@@ -1,17 +1,18 @@
-import { Album, SearchResult, SearchResultType, Track } from "@/lib/definitions";
-import SearchResultCard from "./search-result-card";
-import { getSpotifyImageUrl } from "@/lib/utils";
+import { Album, SearchResult, CardRenderProp, SearchResultType, Track } from "@/lib/definitions";
+import { Fragment } from "react";
 
 export default function SearchResults({
   results,
   isLoading,
   error,
   type,
+  card,
 }: {
   results: SearchResult | undefined;
   isLoading: boolean;
   error: any;
   type: SearchResultType;
+  card: CardRenderProp;
 }) {
   // loading
   if (isLoading) {
@@ -27,33 +28,29 @@ export default function SearchResults({
   // error
   if (error) {
     console.log(error.message);
-    return <DisplayMessage>{'Error has occurred! \u{1F62E}'}</DisplayMessage>;
+    return <DisplayMessage msg={'Error has occurred! \u{1F62E}'} />;
   }
 
-  // success
+  // success (display all the results using render prop)
   const items = (type === 'track') ? results?.tracks.items : results?.albums.items;
 
   return (items?.length === 0) ? (
-    <DisplayMessage>{'No results found... \u{1F622}'}</DisplayMessage>
+    <DisplayMessage msg={'No results found... \u{1F622}'} />
   ) : (
     <>
       {items?.map((item: Track | Album) => (
-        <SearchResultCard 
-          key={item.id}
-          type={type}
-          id={item.id}
-          image_url={getSpotifyImageUrl(item)}
-          name={item.name}
-          artist_name={item.artists[0].name} />
+        <Fragment key={item.id}>
+          {card(item)}
+        </Fragment>
       ))}
     </>
   );
 }
 
-function DisplayMessage({ children }: { children: string }) {
+function DisplayMessage({ msg }: { msg: string }) {
   return (
     <div className="text-base-content/80 h-16 w-full flex items-center justify-center">
-      {children}
+      {msg}
     </div>
   );  
 }

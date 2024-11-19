@@ -19,20 +19,27 @@ export const getKeyString = (key: number, mode: number) => {
   return `${keyStr}\u{00A0}${modeStr}`;
 }
 
-export const getSpotifyImageUrl = (item: Track | Album) => {
-  if ('album' in item)
-    return item.album.images[item.album.images.length - 1].url;
-  return item.images[item.images.length - 1].url;
-}
-
 export const convertPercentage = (f: number) => Math.round(f * 100);
 
 export const calculateSumFeature = (features: AudioFeaturesResult[], key: keyof AudioFeaturesResult) => {
-  return features.map((feature) => feature[key]).reduce((acc, v) => acc + v, 0);
+  // feature might be null
+  return features.map((feature) => !feature ? 0 : feature[key]).reduce((acc, v) => acc + v, 0);
 };
 
 export const calculateAverageFeature = (features: AudioFeaturesResult[], key: keyof AudioFeaturesResult) => {
-  return calculateSumFeature(features, key) / features.length;
+  return calculateSumFeature(features, key) / features.filter(Boolean).length;
+};
+
+export const getAverageFeaturesData = (features: AudioFeaturesResult[]) => {
+  return {
+    acousticness: calculateAverageFeature(features, 'acousticness'),
+    danceability: calculateAverageFeature(features, 'danceability'),
+    energy: calculateAverageFeature(features, 'energy'),
+    instrumentalness: calculateAverageFeature(features, 'instrumentalness'),
+    liveness: calculateAverageFeature(features, 'liveness'),
+    speechiness: calculateAverageFeature(features, 'speechiness'),
+    valence: calculateAverageFeature(features, 'valence'),
+  };
 };
 
 export const capitalizeFirstLetter = (str: string) => {
@@ -48,4 +55,10 @@ export const translateThemeName = (theme: string | undefined) => {
   if (theme === 'light') return 'ライト';
   if (theme === 'dark') return 'ダーク';
   return 'システム'
+};
+
+export const getSpotifyMinImageUrl = (item: Track | Album) => {
+  if ('album' in item)
+    return item.album.images[item.album.images.length - 1].url;
+  return item.images[item.images.length - 1].url;
 };

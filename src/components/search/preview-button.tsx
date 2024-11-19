@@ -12,7 +12,7 @@ export default function PreviewButton({
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const clickHandler = () => {
+  const handleAudioPlay = () => {
     if (isPlaying) {
       audioRef.current?.pause();
       setIsPlaying(false);
@@ -27,7 +27,7 @@ export default function PreviewButton({
       {src ? <audio src={src} ref={audioRef} onEnded={() => setIsPlaying(false)}></audio> : null}
       <button 
         className={clsx('btn btn-block btn-outline btn-sm gap-1', { 'btn-disabled' : !src })} 
-        onClick={clickHandler}
+        onClick={handleAudioPlay}
       >
         {isPlaying ? <PauseIcon className="w-4" /> : <PlayIcon className="w-4" />}
         Preview
