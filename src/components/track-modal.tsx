@@ -32,11 +32,12 @@ export default function TrackModal({
           <MetadataInfo
             type="track"
             title={result.name}
-            artists={result.artists.slice(0, 1)}
+            artists={result.artists}
             albumName={result.album.name}
             albumId={result.album.id}
             releaseDate={result.album.release_date}
-            spotifyUrl={result.external_urls.spotify} />
+            spotifyUrl={result.external_urls.spotify}
+            small={true} />
         </div>
       </div>
     </Modal>

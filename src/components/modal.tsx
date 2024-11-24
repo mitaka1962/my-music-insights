@@ -21,8 +21,9 @@ export default function Modal({
         setTimeout(onClose, 200);
       };
 
-      dialogElement?.showModal();
       dialogElement?.addEventListener('close', handler);
+      // delay for open animation
+      setTimeout(() => dialogElement?.showModal(), 1);
 
       return () => {
         dialogElement?.removeEventListener('close', handler)
@@ -34,7 +35,7 @@ export default function Modal({
     <>
       {open && (
         <dialog ref={dialogRef} className="modal">
-          <div className="modal-box min-w-[50%] max-w-[80%] w-fit">
+          <div className="modal-box max-w-[48rem]">
             {children}
             <div className="modal-action">
               <form method="dialog" className="flex gap-3">

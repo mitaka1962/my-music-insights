@@ -2,11 +2,7 @@
 
 import { Track } from "@/lib/definitions";
 import SearchResultCard from "./search-result-card";
-import CoverImage from "@/components/search/cover-image";
-import MetadataInfo from "@/components/search/metadata-info";
-import PreviewButton from "@/components/search/preview-button";
 import { useState } from "react";
-import Modal from "../modal";
 import TrackModal from "../track-modal";
 
 export default function SearchResultCardForCreate({
