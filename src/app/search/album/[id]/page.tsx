@@ -12,15 +12,20 @@ export default async function AlbumInfoPage({
   }
 }) {
   const catalogData = await getAlbumInfoData(params.id);
-  const trackIds = catalogData.tracks.items.map((item: {id: string}) => item.id).join(',')
-  const { audio_features } = await getSeveralTracksFeaturesData(trackIds);
+  const trackIds = catalogData?.tracks.items.map((item: {id: string}) => item.id).join(',')
+  const tracksFeatures = await getSeveralTracksFeaturesData(trackIds ?? '');
+
+  // Error message
+  if (!catalogData || !tracksFeatures) {
+    return 'Failed to fetch data from Spotify Web API';
+  };
 
   const infoList = [
-    { name: 'Total Duration', value: convertTime(calculateSumFeature(audio_features, 'duration_ms')) },
-    { name: 'Average BPM', value: Math.round(calculateAverageFeature(audio_features, 'tempo')) }
+    { name: 'Total Duration', value: convertTime(calculateSumFeature(tracksFeatures.audio_features, 'duration_ms')) },
+    { name: 'Average BPM', value: Math.round(calculateAverageFeature(tracksFeatures.audio_features, 'tempo')) }
   ];
 
-  const averageFeaturesData = getAverageFeaturesData(audio_features);
+  const averageFeaturesData = getAverageFeaturesData(tracksFeatures.audio_features);
 
   return (
     <main>

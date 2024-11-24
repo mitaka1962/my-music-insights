@@ -1,3 +1,5 @@
+import { Album, AudioFeatures, SeveralAudioFeatures, SeveralTracks, Track } from "@/lib/definitions";
+
 export async function getSpotifyData(endpoint: string) {
     const client_id = process.env.CLIENT_ID;
     const client_secret = process.env.CLIENT_SECRET;
@@ -31,31 +33,31 @@ export async function getSpotifyData(endpoint: string) {
     return data;
 }
 
-export async function getTrackInfoData(id: string) {
+export async function getTrackInfoData(id: string): Promise<Track | null> {
     if (!id) return null;
     const data = await getSpotifyData(`/tracks/${id}`);
     return data;
 }
 
-export async function getSeveralTracksInfoData(ids: string) {
+export async function getSeveralTracksInfoData(ids: string): Promise<SeveralTracks | null> {
     if (!ids) return null;
     const data = await getSpotifyData(`/tracks?ids=${ids}`);
     return data;
 }
 
-export async function getAlbumInfoData(id: string) {
+export async function getAlbumInfoData(id: string): Promise<Album | null> {
     if (!id) return null;
     const data = await getSpotifyData(`/albums/${id}`);
     return data;
 }
 
-export async function getTrackFeaturesData(id: string) {
+export async function getTrackFeaturesData(id: string): Promise<AudioFeatures | null> {
     if (!id) return null;
     const data = await getSpotifyData(`/audio-features/${id}`);
     return data;
 }
 
-export async function getSeveralTracksFeaturesData(ids: string) {
+export async function getSeveralTracksFeaturesData(ids: string): Promise<SeveralAudioFeatures | null> {
     if (!ids) return null;
     const data = await getSpotifyData(`/audio-features?ids=${ids}`);
     return data;

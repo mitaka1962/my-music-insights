@@ -1,4 +1,4 @@
-import { AudioFeatures } from "@/lib/definitions";
+import { AudioFeatures, NormalizedAudioFeatures } from "@/lib/definitions";
 import { convertPercentage } from "@/lib/utils";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
@@ -7,7 +7,7 @@ export default function FeaturesInfo({
   features,
 }: {
   info: Array<{name: string, value: number | string}>;
-  features: AudioFeatures;
+  features: NormalizedAudioFeatures;
 }) {
   const featuresList = [
     { name: 'acousticness', value: features.acousticness,

@@ -15,9 +15,14 @@ export default async function TrackInfoPage({
     getTrackFeaturesData(params.id),
   ]);
 
+  // Error message
+  if (!catalogData || !featuresData) {
+    return 'Failed to fetch data from Spotify Web API';
+  };
+
   const infoList = [
     { name: 'Duration', value: convertTime(featuresData.duration_ms) },
-    { name: 'Key', value: getKeyString(featuresData.key, featuresData.mode) },
+    { name: 'Key', value: getKeyString(featuresData.key, featuresData?.mode) },
     { name: 'BPM', value: Math.round(featuresData.tempo) }
   ];
 

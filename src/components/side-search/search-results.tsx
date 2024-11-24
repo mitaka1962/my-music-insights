@@ -38,11 +38,11 @@ export default function SearchResults({
     <DisplayMessage msg={'No results found... \u{1F622}'} />
   ) : (
     <>
-      {items?.map((item: Track | Album) => (
-        <Fragment key={item.id}>
-          {card(item)}
-        </Fragment>
-      ))}
+      {items?.map((item: Track | Album | null) => {
+        if (item) {
+          return <Fragment key={item.id}>{card(item)}</Fragment>;
+        }
+      })}
     </>
   );
 }
