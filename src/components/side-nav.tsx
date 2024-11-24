@@ -45,7 +45,7 @@ export default function SideNav() {
               key={link.name} 
               href={`/${link.href}`}
               className={clsx("btn btn-ghost btn-block no-animation justify-start gap-3 active:opacity-60", {
-                "bg-base-content/20" : isCurrentPath(link.href),
+                "bg-base-content/10" : isCurrentPath(link.href),
               })}>
               {isCurrentPath(link.href) ? <SolidIcon className="w-6" /> : <OutlineIcon className="w-6" />}
               <p>{link.name}</p>
@@ -56,7 +56,7 @@ export default function SideNav() {
       <Link 
         href="/settings"
         className={clsx("btn btn-ghost btn-block no-animation justify-start gap-3 active:opacity-60", {
-          "bg-base-300" : isCurrentPath('settings'),
+          "bg-base-content/10" : isCurrentPath('settings'),
         })}>
         {isCurrentPath('settings') ? <SolidCog6ToothIcon className="w-6" /> : <OutlineCog6ToothIcon className="w-6" />}
         <p>Settings</p>

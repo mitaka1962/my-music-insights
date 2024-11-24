@@ -11,20 +11,21 @@ const config: Config = {
   theme: {
     extend: {
       animation: {
-        "skeleton-fadein": "fade-in-up 0.6s ease-in-out both",
+        "fadein-up-20": "fadein-up 0.6s ease-in-out both",
+        "fadein-up": "fadein-up 0.4s ease-in-out both",
       },
       keyframes: {
-        "fade-in-up": {
+        "fadein-up": {
           "0%": {
             opacity: "0",
-            transform: "translateY(10px)"
+            transform: "translateY(5px)"
           },
           "100%": {
             opacity: "1",
             transform: "translateY(0)"
           }
         },
-        "fade-in-up-20": {
+        "fadein-up-20": {
           "0%": {
             opacity: "0",
             transform: "translateY(20px)"

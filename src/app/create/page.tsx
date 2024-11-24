@@ -7,7 +7,6 @@ import SearchResultCardForCreate from "@/components/side-search/search-result-ca
 import { Track } from "@/lib/definitions";
 import TrackListItem from "@/components/create/track-list-item";
 import { useRouter } from "next-nprogress-bar";
-import { usePathname } from "next/navigation";
 
 const LIST_MAX = 10;
 

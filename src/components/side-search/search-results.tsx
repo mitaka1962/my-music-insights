@@ -17,7 +17,7 @@ export default function SearchResults({
   // loading
   if (isLoading) {
     return (
-      <div className="animate-skeleton-fadein" >
+      <div className="animate-fadein-up-20" >
         <ResultSkeleton />
         <ResultSkeleton />
         <ResultSkeleton />

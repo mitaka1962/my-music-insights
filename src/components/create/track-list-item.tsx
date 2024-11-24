@@ -14,7 +14,7 @@ export default function TrackListItem({
   handleRemove?: (idx: number) => void;
 }) {
   return (
-    <div className={clsx("flex gap-4 py-1.5 px-5 rounded-xl items-center border border-base-content/15",
+    <div className={clsx("flex gap-4 py-1.5 px-5 rounded-xl items-center border border-base-content/15 animate-fadein-up",
       { 'hover:border-base-content/60' : handleRemove }
     )}>
       <div className="text-lg w-4 text-center text-base-content/80">{idx + 1}</div>

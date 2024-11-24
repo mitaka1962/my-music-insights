@@ -1,6 +1,6 @@
 export default function SkeletonInfo() {
   return (
-    <div className="flex flex-col gap-4 p-4 animate-skeleton-fadein">
+    <div className="flex flex-col gap-4 p-4 animate-fadein-up-20">
       <div className="flex gap-4">
         <div className="flex-none w-1/3 max-w-[260px]">
           <div className="skeleton pt-[100%] w-full"></div>
