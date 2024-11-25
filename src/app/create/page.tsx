@@ -1,12 +1,13 @@
 'use client';
 
 import SideSearch from "@/components/side-search/side-search";
-import { memo, useCallback, useReducer } from "react";
+import { memo, useCallback, useReducer, useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import SearchResultCardForCreate from "@/components/side-search/search-result-card-for-create";
 import { Album, Track } from "@/lib/definitions";
 import { useRouter } from "next-nprogress-bar";
 import TrackListItemWithModal from "@/components/create/track-list-item-with-modal";
+import Modal from "@/components/modal";
 
 const LIST_MAX = 10;
 
@@ -34,13 +35,14 @@ const MemoSideSearch = memo(SideSearch);
 export default function Page() {
   const router = useRouter();
   const [selectedTrackList, dispatch] = useReducer(reducer, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleRemove = (idx: number) => dispatch({ type: 'remove', payload: idx });
-  const handleClear = () => dispatch({ type: 'clear' });
 
-  const handleAnalysis = () => {
+  const handleClearButtonClick = () => setIsModalOpen(true);
+
+  const handleAnalysisButtonClick = () => {
     if (selectedTrackList.length === 0) return;
-    
     const trackIds = selectedTrackList.map(item => item.id).join(',');
     router.push(`/create/analysis?q=${trackIds}`);
   };
@@ -56,8 +58,18 @@ export default function Page() {
       <div className="w-3/4 grid grid-rows-[auto_minmax(0,1fr)] px-8 py-10">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
           <h1 className="font-bold text-2xl">お気に入りリストを新規作成</h1>
-          <button className="btn" onClick={handleClear}>すべて削除</button>
-          <button className="btn btn-primary" onClick={handleAnalysis}>分析する</button>
+          <button className="btn" onClick={handleClearButtonClick} disabled={selectedTrackList.length === 0}>すべて削除</button>
+          <Modal
+            open={isModalOpen}
+            setOpen={setIsModalOpen}
+            buttons={<>
+              <button className="btn">キャンセル</button>
+              <button className="btn btn-primary" onClick={() => dispatch({ type: 'clear' })}>はい</button>
+            </>}
+          >
+            本当にすべて削除しますか？
+          </Modal>
+          <button className="btn btn-primary" onClick={handleAnalysisButtonClick}>分析する</button>
         </div>
         <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 overflow-y-auto py-4">
           {selectedTrackList.map((item, idx) => (

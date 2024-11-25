@@ -7,19 +7,19 @@ import { Track } from "@/lib/definitions";
 
 export default function TrackModal({
   open,
-  onClose,
+  setOpen,
   buttons,
   result,
 }: {
   open: boolean;
-  onClose: () => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   buttons?: React.ReactNode;
   result: Track;
 }) {
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      setOpen={setOpen}
       buttons={buttons}
     >
       <h3 className="font-bold text-2xl px-2 pb-2 mb-4 border-b border-base-content/15">楽曲情報</h3>

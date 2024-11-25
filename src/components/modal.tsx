@@ -3,33 +3,35 @@ import { useRef, useEffect } from "react";
 export default function Modal({
   children,
   open,
-  onClose,
+  setOpen,
   buttons = <button className="btn">閉じる</button>,
 }: {
   children: React.ReactNode;
   open: boolean;
-  onClose: () => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   buttons?: React.ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     if (open) {
+      console.log('Open!!');
+      
       const dialogElement = dialogRef.current;
       const handler = () => {
         // hide dialog after close animation
-        setTimeout(onClose, 200);
+        setTimeout(() => setOpen(false), 200);
       };
 
       dialogElement?.addEventListener('close', handler);
-      // delay for open animation
+      // delay to make sure that open animation runs
       setTimeout(() => dialogElement?.showModal(), 1);
 
       return () => {
         dialogElement?.removeEventListener('close', handler)
       }
     }
-  }, [open, onClose]);
+  }, [open, setOpen]);
   
   return (
     <>

@@ -31,7 +31,7 @@ export default function TrackListItemWithModal({
       {/* --modal-- */}
       <TrackModal
         open={isOpen}
-        onClose={() => setIsOpen(false)}
+        setOpen={setIsOpen}
         buttons={<>
           <button className="btn">キャンセル</button>
           <button className="btn btn-primary" onClick={() => handleRemove(idx)}>削除する</button>
