@@ -62,10 +62,8 @@ export default function Page() {
           <Modal
             open={isModalOpen}
             setOpen={setIsModalOpen}
-            buttons={<>
-              <button className="btn">キャンセル</button>
-              <button className="btn btn-primary" onClick={() => dispatch({ type: 'clear' })}>はい</button>
-            </>}
+            title="確認"
+            buttons={<button className="btn btn-primary" onClick={() => dispatch({ type: 'clear' })}>はい</button>}
           >
             本当にすべて削除しますか？
           </Modal>

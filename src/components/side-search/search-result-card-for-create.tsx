@@ -23,10 +23,7 @@ export default function SearchResultCardForCreate({
       <TrackModal
         open={isOpen}
         setOpen={setIsOpen}
-        buttons={<>
-          <button className="btn">キャンセル</button>
-          <button className="btn btn-primary" onClick={() => handleAdd(result)}>追加する</button>
-        </>}
+        buttons={<button className="btn btn-primary" onClick={() => handleAdd(result)}>追加する</button>}
         result={result}
       />
     </>

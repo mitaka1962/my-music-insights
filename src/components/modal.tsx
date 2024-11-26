@@ -1,22 +1,23 @@
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useRef, useEffect } from "react";
 
 export default function Modal({
   children,
   open,
   setOpen,
-  buttons = <button className="btn">閉じる</button>,
+  title,
+  buttons,
 }: {
   children: React.ReactNode;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  title?: string;
   buttons?: React.ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (open) {
-      console.log('Open!!');
-      
+    if (open) {      
       const dialogElement = dialogRef.current;
       const handler = () => {
         // hide dialog after close animation
@@ -38,13 +39,25 @@ export default function Modal({
       {open && (
         <dialog ref={dialogRef} className="modal">
           <div className="modal-box max-w-[48rem]">
-            {children}
+            {title ? (
+              <h3 className="font-bold text-xl px-2 pb-2 mb-4 border-b border-base-content/15">{title}</h3>
+            ) : null}
+            <div className="px-2">
+              {children}
+            </div>            
             <div className="modal-action">
               <form method="dialog" className="flex gap-3">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">
+                  <XMarkIcon className="w-6 h-6" />
+                </button>
                 {buttons}
-              </form>
+              </form>              
             </div>
           </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
         </dialog>
       )}
     </>

@@ -35,7 +35,7 @@ export default async function AnalysisInfoPage({
         <div className="px-2">
           <FeaturesInfo info={infoList} features={averageFeaturesData} />
         </div>        
-        <div className="grid grid-cols-2 auto-rows-min gap-3 px-2">
+        <div className="grid grid-cols-1 auto-rows-min gap-3 px-2">
           {catalogDataList?.tracks.map((item: Track, idx: number) => (
             <TrackListItem key={`${item.id}_${idx}`} item={item} idx={idx} />
           ))}

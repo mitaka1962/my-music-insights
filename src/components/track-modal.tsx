@@ -20,10 +20,10 @@ export default function TrackModal({
     <Modal
       open={open}
       setOpen={setOpen}
+      title="楽曲情報"
       buttons={buttons}
     >
-      <h3 className="font-bold text-2xl px-2 pb-2 mb-4 border-b border-base-content/15">楽曲情報</h3>
-      <div className="flex gap-4 px-2">
+      <div className="flex gap-4">
         <div className="flex-none w-1/3 max-w-[260px] flex flex-col gap-4">
           <CoverImage imageUrl={result.album.images[0].url} name={result.name} />
           <PreviewButton src={result.preview_url} />
