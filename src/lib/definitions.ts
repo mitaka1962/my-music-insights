@@ -54,7 +54,7 @@ export type AudioFeatures = NormalizedAudioFeatures & {
   time_signature: number
   tempo: number
   loudness: number
-};
+}
 
 export interface SeveralAudioFeatures {
   audio_features: AudioFeatures[];
@@ -67,3 +67,16 @@ export type SpotifySearchParams = {
 }
 
 export type CardRenderProp = (result: Track | Album) => React.ReactNode;
+
+export interface MylistCardData {
+  id: string;
+  name: string;
+  user: {
+    name: string;
+    imageColor: string;
+  };
+  createdAt: Date;
+  tracks: {
+    trackId: string;
+  }[];
+}

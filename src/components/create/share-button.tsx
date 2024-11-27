@@ -1,10 +1,14 @@
 'use client';
 
 import Modal from "@/components/modal";
+import { addMylist } from "@/lib/actions";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function ShareButton() {
+  const searchParams = useSearchParams();
+
   const colorList = ['red', 'blue', 'yellow', 'green', 'cyan']
   const [iconColor, setIconColor] = useState(colorList[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +22,8 @@ export default function ShareButton() {
         title="名前を付けて公開"
         buttons={<button type="submit" form="share" className="btn btn-primary">公開する</button>}
       >
-        <form id="share" className="flex flex-col gap-2">
+        <form id="share" action={addMylist} className="flex flex-col gap-2">
+          <input type="hidden" name="trackIds" defaultValue={searchParams.get('q') ?? undefined} />
           <label className="form-control">
             <div className="label">
               <span className="label-text text-base-content/80">マイリスト名</span>
@@ -44,6 +49,7 @@ export default function ShareButton() {
                     type="radio"
                     name="color"
                     value={color}
+                    aria-label={color}
                     className="appearance-none cursor-pointer w-8 h-8 rounded ring-base-content/30 ring-offset-2 checked:ring-1"
                     style={{ backgroundColor: color }}
                     onChange={() => setIconColor(color)}

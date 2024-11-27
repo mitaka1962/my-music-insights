@@ -48,7 +48,7 @@ export default function Modal({
             <div className="modal-action">
               <form method="dialog" className="flex gap-3">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3" aria-label="閉じる">
                   <XMarkIcon className="w-6 h-6" />
                 </button>
                 {buttons}

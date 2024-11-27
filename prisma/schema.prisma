@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @default(cuid()) @id
+  name        String    @unique
+  imageColor  String    @map("image_color")
+  mylists     Mylist[]
+
+  @@map("users")
+}
+
+model Mylist {
+  id          String    @default(cuid()) @id
+  name        String
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @map("user_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  tracks      TracksOnMylists[]
+
+  @@map("mylists")
+}
+
+model TracksOnMylists {
+  mylist      Mylist    @relation(fields: [mylistId], references: [id])
+  mylistId    String    @map("mylist_id")
+  position    Int
+  trackId     String    @map("track_id")
+
+  @@id([mylistId, position])
+  @@map("tracks_on_mylists")
+}

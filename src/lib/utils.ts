@@ -1,4 +1,4 @@
-import { Album, AudioFeatures, NormalizedAudioFeatures, SpotifySearchParams, Track } from '@/lib/definitions'
+import { Album, AudioFeatures, MylistCardData, NormalizedAudioFeatures, SpotifySearchParams, Track } from '@/lib/definitions'
 
 export const convertTime = (msec: number): string => {
   const totalSec = Math.floor(msec / 1000);
@@ -65,4 +65,10 @@ export const getSpotifyMinImageUrl = (item: Track | Album): string => {
   if ('album' in item)
     return item.album.images[item.album.images.length - 1].url;
   return item.images[item.images.length - 1].url;
+};
+
+export const getTrackIdList = (mylists: MylistCardData[]): string[] => {
+  return mylists.flatMap(
+    (mylist: { tracks: any[]; }) => mylist.tracks.map(item => item.trackId)
+  );
 };
