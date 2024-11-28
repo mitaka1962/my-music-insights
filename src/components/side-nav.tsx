@@ -26,9 +26,7 @@ export default function SideNav() {
   const pathname = usePathname();
   const initialPath = pathname.split('/')[1];   // ex) '/search/track/[id]' => 'search'
 
-  const isCurrentPath = (routeName: string) => {
-    return initialPath === routeName;
-  };
+  const isCurrentPath = (routeName: string) => initialPath === routeName;
 
   return (
     <div className="flex flex-col w-full h-full px-2 py-4 border-r border-base-content/15">

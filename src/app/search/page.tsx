@@ -1,4 +1,4 @@
-export default function Page() {  
+export default function Page() {
   return (
     <main>
       <div className="chat chat-end gap-y-4">

@@ -15,12 +15,12 @@ export default function ShareButton() {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>公開する</button>
+      <button className="btn btn-smlr btn-primary" onClick={() => setIsModalOpen(true)}>公開する</button>
       <Modal
         open={isModalOpen}
         setOpen={setIsModalOpen}
         title="名前を付けて公開"
-        buttons={<button type="submit" form="share" className="btn btn-primary">公開する</button>}
+        buttons={<button type="submit" form="share" className="btn btn-smlr btn-primary">公開する</button>}
       >
         <form id="share" action={addMylist} className="flex flex-col gap-2">
           <input type="hidden" name="trackIds" defaultValue={searchParams.get('q') ?? undefined} />
@@ -28,7 +28,7 @@ export default function ShareButton() {
             <div className="label">
               <span className="label-text text-base-content/80">マイリスト名</span>
             </div>            
-            <input type="text" name="listname" placeholder="マイリスト名を入力" className="input input-bordered input-sm w-full" />
+            <input type="text" name="listname" placeholder="例）私の名曲○選" className="input input-bordered input-sm w-full" />
           </label>
           <label className="form-control">
             <div className="label">
@@ -50,7 +50,7 @@ export default function ShareButton() {
                     name="color"
                     value={color}
                     aria-label={color}
-                    className="appearance-none cursor-pointer w-8 h-8 rounded ring-base-content/30 ring-offset-2 checked:ring-1"
+                    className="appearance-none cursor-pointer w-8 h-8 rounded ring-base-content/30 ring-offset-base-100 ring-offset-2 checked:ring-1"
                     style={{ backgroundColor: color }}
                     onChange={() => setIconColor(color)}
                     checked={iconColor === color} />

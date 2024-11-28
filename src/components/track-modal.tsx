@@ -26,7 +26,7 @@ export default function TrackModal({
       <div className="flex gap-4">
         <div className="flex-none w-1/3 max-w-[260px] flex flex-col gap-4">
           <CoverImage imageUrl={result.album.images[0].url} name={result.name} />
-          <PreviewButton src={result.preview_url} />
+          {/* <PreviewButton src={result.preview_url} /> */}
         </div>
         <div className="grow w-2/3">
           <MetadataInfo

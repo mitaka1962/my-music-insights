@@ -32,7 +32,7 @@ export default function TrackListItemWithModal({
       <TrackModal
         open={isOpen}
         setOpen={setIsOpen}
-        buttons={<button className="btn btn-primary" onClick={() => handleRemove(idx)}>削除する</button>}
+        buttons={<button className="btn btn-smlr btn-primary" onClick={() => handleRemove(idx)}>削除する</button>}
         result={item}
       />
     </>

@@ -16,6 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // suppressHydrationWarning for next-themes
     <html lang="ja" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider>
@@ -24,7 +25,7 @@ export default function RootLayout({
               <div className="flex-none w-56 h-full">
                 <SideNav />
               </div>
-              <div className="flex-auto min-w-0 h-full">
+              <div className="flex-auto min-w-0 h-full overflow-y-auto">
                 {children}
               </div>
             </div>

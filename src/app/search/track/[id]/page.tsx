@@ -10,21 +10,18 @@ export default async function TrackInfoPage({
 }: {
   params: { id: string; };
 }) {
-  const [catalogData, featuresData] = await Promise.all([
-    getTrackInfoData(params.id),
-    getTrackFeaturesData(params.id),
-  ]);
+  const catalogData = await getTrackInfoData(params.id);
 
   // Error message
-  if (!catalogData || !featuresData) {
+  if (!catalogData) {
     return 'Failed to fetch data from Spotify Web API';
   };
 
-  const infoList = [
-    { name: 'Duration', value: convertTime(featuresData.duration_ms) },
-    { name: 'Key', value: getKeyString(featuresData.key, featuresData?.mode) },
-    { name: 'BPM', value: Math.round(featuresData.tempo) }
-  ];
+  // const infoList = [
+  //   { name: 'Duration', value: convertTime(featuresData.duration_ms) },
+  //   { name: 'Key', value: getKeyString(featuresData.key, featuresData?.mode) },
+  //   { name: 'BPM', value: Math.round(featuresData.tempo) }
+  // ];
 
   return (
     <main>
@@ -32,7 +29,7 @@ export default async function TrackInfoPage({
         <div className="flex gap-4">
           <div className="flex-none w-1/3 max-w-[260px] flex flex-col gap-4">
             <CoverImage imageUrl={catalogData.album.images[0].url} name={catalogData.name} />
-            <PreviewButton src={catalogData.preview_url} />
+            {/* <PreviewButton src={catalogData.preview_url} /> */}
           </div>
           <div className="grow w-2/3">
             <MetadataInfo
@@ -45,7 +42,7 @@ export default async function TrackInfoPage({
               spotifyUrl={catalogData.external_urls.spotify} />
           </div>
         </div>
-        <FeaturesInfo info={infoList} features={featuresData} />
+        {/* <FeaturesInfo info={infoList} features={featuresData} /> */}
       </div>
     </main>
   );

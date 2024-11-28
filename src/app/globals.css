@@ -14,6 +14,12 @@
 /* disable daisy UI's button's enter animation */
 .btn {
   @apply animate-none;
+  @apply no-animation;
+  @apply active:opacity-70;
+}
+.btn-smlr {
+  @apply min-h-10;
+  @apply h-10;
 }
 /* change btn-primary's text color */
 .btn-primary {

@@ -56,8 +56,8 @@ export default function SearchInput({
           )
         }
       )}
-      <div className="mt-6">
-        <button className="btn btn-sm w-full h-9 gap-1" onClick={handleSearch}>
+      <div className="mt-4">
+        <button className="btn btn-smlr btn-block gap-1" onClick={handleSearch}>
           <MagnifyingGlassIcon className="w-4" />
           Search
         </button>

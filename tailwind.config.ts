@@ -12,7 +12,7 @@ const config: Config = {
     extend: {
       animation: {
         "fadein-up-20": "fadein-up 0.6s ease-in-out both",
-        "fadein-up": "fadein-up 0.4s ease-in-out both",
+        "fadein-up": "fadein-up 0.2s ease-in-out both",
       },
       keyframes: {
         "fadein-up": {
@@ -40,7 +40,15 @@ const config: Config = {
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["light", "dark"]
+    themes: [
+      "light",
+      {
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+          "base-content": "#f1f2f3",
+        },
+      },
+    ]
   },
 };
 export default config;

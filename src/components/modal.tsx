@@ -56,7 +56,7 @@ export default function Modal({
             </div>
           </div>
           <form method="dialog" className="modal-backdrop">
-            <button>close</button>
+            <button className="cursor-default">close</button>
           </form>
         </dialog>
       )}

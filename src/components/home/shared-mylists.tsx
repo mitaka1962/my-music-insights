@@ -5,7 +5,6 @@ import { getTrackIdList } from "@/lib/utils";
 export default async function SharedMylists() {
   const mylists = await getAllMylists();
   const trackIdList = getTrackIdList(mylists);
-  console.log(trackIdList);
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

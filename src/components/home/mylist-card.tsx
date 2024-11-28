@@ -1,5 +1,3 @@
-'use client';
-
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,8 +16,8 @@ export default function MylistCard({
   imageUrls: string[];
 }) {
   return (
-    <div className="card card-bordered">
-      <div className="card-body p-6">
+    <div className="card card-bordered border-base-content/10">
+      <div className="card-body p-6 pb-4">
         <h3 className="card-title">
           <Link href="/" className="link-hover overflow-hidden text-nowrap text-ellipsis">
             {title}
@@ -31,10 +29,16 @@ export default function MylistCard({
         </div>
         <span className="text-base-content/70 text-sm text-end">作成日 : {date.toLocaleDateString('ja-JP')}</span>
       </div>
-      <hr className="border-base-content/15 w-[95%] mx-auto" />
-      <figure className="p-4 gap-2">
+      <figure>
         {imageUrls.map((url, idx) => (
-          <Image src={url} alt={`ジャケット画像${idx + 1}`} width={64} height={64} className="w-full h-full rounded" />
+          <Image
+            key={url + idx}
+            src={url}
+            alt={`ジャケット画像${idx + 1}`}
+            width={64}
+            height={64}
+            className="w-full h-full"
+            unoptimized={true} />
         ))}
       </figure>
     </div>

@@ -15,10 +15,13 @@ export async function getSpotifyData(endpoint: string) {
     cache: 'no-store'
   });
   const accessTokenData = await accessTokenResponse.json();
-    
+  
   // send a request for Spotify Web API
   const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
-    headers: { 'Authorization': 'Bearer ' + accessTokenData.access_token, 'Accept-Language': 'ja' }
+    headers: {
+      'Authorization': 'Bearer ' + accessTokenData.access_token,
+      'Accept-Language': 'ja',
+    }
   });
 
   if (!response.ok) {
@@ -26,11 +29,8 @@ export async function getSpotifyData(endpoint: string) {
     throw new Error(`${info.error.status}: ${info.error.message}`);
   }
 
-    // wait for testing
-    // await new Promise(resolve => setTimeout(resolve, 3000));
-
-    const data = await response.json();
-    return data;
+  const data = await response.json();
+  return data;
 }
 
 export async function getTrackInfoData(id: string): Promise<Track | null> {

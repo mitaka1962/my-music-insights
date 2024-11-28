@@ -8,6 +8,7 @@ import { Album, Track } from "@/lib/definitions";
 import { useRouter } from "next-nprogress-bar";
 import TrackListItemWithModal from "@/components/create/track-list-item-with-modal";
 import Modal from "@/components/modal";
+import ShareButton from "@/components/create/share-button";
 
 const LIST_MAX = 10;
 
@@ -26,7 +27,7 @@ function reducer(state: Track[], action: { type: string, payload?: any }) {
       return [];
     }
   }
-
+  
   throw Error('Unknown action: ' + action.type);
 }
 
@@ -41,12 +42,6 @@ export default function Page() {
 
   const handleClearButtonClick = () => setIsModalOpen(true);
 
-  const handleAnalysisButtonClick = () => {
-    if (selectedTrackList.length === 0) return;
-    const trackIds = selectedTrackList.map(item => item.id).join(',');
-    router.push(`/create/analysis?q=${trackIds}`);
-  };
-
   const resultCard = useCallback((result: Track | Album) => (
     <SearchResultCardForCreate
       result={result as Track}
@@ -57,17 +52,21 @@ export default function Page() {
     <div className="flex h-full">
       <div className="w-3/4 grid grid-rows-[auto_minmax(0,1fr)] px-8 py-10">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
-          <h1 className="font-bold text-2xl">お気に入りリストを新規作成</h1>
-          <button className="btn" onClick={handleClearButtonClick} disabled={selectedTrackList.length === 0}>すべて削除</button>
+          <h1 className="font-bold text-2xl">マイリストを新規作成</h1>
+          <button
+            className="btn btn-smlr"
+            onClick={handleClearButtonClick}
+            disabled={selectedTrackList.length === 0}
+          >すべて削除</button>
           <Modal
             open={isModalOpen}
             setOpen={setIsModalOpen}
             title="確認"
-            buttons={<button className="btn btn-primary" onClick={() => dispatch({ type: 'clear' })}>はい</button>}
+            buttons={<button className="btn btn-smlr btn-primary" onClick={() => dispatch({ type: 'clear' })}>はい</button>}
           >
             本当にすべて削除しますか？
           </Modal>
-          <button className="btn btn-primary" onClick={handleAnalysisButtonClick}>分析する</button>
+          <ShareButton />
         </div>
         <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 overflow-y-auto py-4">
           {selectedTrackList.map((item, idx) => (
