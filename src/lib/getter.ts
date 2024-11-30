@@ -1,4 +1,5 @@
-import { Album, AudioFeatures, MylistCardData, SeveralAudioFeatures, SeveralTracks, Track } from "@/lib/definitions";
+import { Album, MylistCardData, SeveralTracks, Track } from "@/lib/definitions";
+import prisma from "@/lib/prisma";
 
 export async function getSpotifyData(endpoint: string) {
   const client_id = process.env.CLIENT_ID;
@@ -45,23 +46,29 @@ export async function getSeveralTracksInfoData(ids: string): Promise<SeveralTrac
   return data;
 }
 
+export async function getSeveralTracksImageUrls(ids: string) {
+  const data = await getSeveralTracksInfoData(ids);
+  if (!data) return null;
+  return data.tracks.map(item => item.album.images[1].url);
+}
+
 export async function getAlbumInfoData(id: string): Promise<Album | null> {
   if (!id) return null;
   const data = await getSpotifyData(`/albums/${id}`);
   return data;
 }
 
-export async function getTrackFeaturesData(id: string): Promise<AudioFeatures | null> {
-  if (!id) return null;
-  const data = await getSpotifyData(`/audio-features/${id}`);
-  return data;
-}
+// export async function getTrackFeaturesData(id: string): Promise<AudioFeatures | null> {
+//   if (!id) return null;
+//   const data = await getSpotifyData(`/audio-features/${id}`);
+//   return data;
+// }
 
-export async function getSeveralTracksFeaturesData(ids: string): Promise<SeveralAudioFeatures | null> {
-  if (!ids) return null;
-  const data = await getSpotifyData(`/audio-features?ids=${ids}`);
-  return data;
-}
+// export async function getSeveralTracksFeaturesData(ids: string): Promise<SeveralAudioFeatures | null> {
+//   if (!ids) return null;
+//   const data = await getSpotifyData(`/audio-features?ids=${ids}`);
+//   return data;
+// }
 
 export async function getAllMylists(): Promise<MylistCardData[]> {
   const mylists = await prisma.mylist.findMany({

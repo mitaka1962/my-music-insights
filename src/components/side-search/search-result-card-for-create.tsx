@@ -3,7 +3,9 @@
 import { Track } from "@/lib/definitions";
 import SearchResultCard from "./search-result-card";
 import { useState } from "react";
-import TrackModal from "../track-modal";
+import Modal from "../modal/modal";
+import ModalActions from "@/components/modal/modal-actions";
+import TrackModalContent from "../modal/track-modal-content";
 
 export default function SearchResultCardForCreate({
   result,
@@ -19,13 +21,16 @@ export default function SearchResultCardForCreate({
       <button className="text-left" onClick={() => setIsOpen(true)}>
         <SearchResultCard result={result} />
       </button>
-      {/* --modal-- */}
-      <TrackModal
+      <Modal
         open={isOpen}
         setOpen={setIsOpen}
-        buttons={<button className="btn btn-smlr btn-primary" onClick={() => handleAdd(result)}>追加する</button>}
-        result={result}
-      />
+        title="楽曲情報"
+      >
+        <TrackModalContent item={result} />
+        <ModalActions>
+          <button className="btn btn-smlr btn-primary" onClick={() => handleAdd(result)}>追加する</button>
+        </ModalActions>
+      </Modal>
     </>
   );
 }

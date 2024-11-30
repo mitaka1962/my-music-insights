@@ -1,7 +1,9 @@
 import { useState } from "react";
 import TrackListItem from "@/components/create/track-list-item";
 import { Track } from "@/lib/definitions";
-import TrackModal from "@/components/track-modal";
+import Modal from "@/components/modal/modal";
+import ModalActions from "@/components/modal/modal-actions";
+import TrackModalContent from "../modal/track-modal-content";
 
 export default function TrackListItemWithModal({
   item,
@@ -28,13 +30,16 @@ export default function TrackListItemWithModal({
       <div role="button" tabIndex={0} className="" onClick={handleClick} onKeyDown={handleKeyDown}>
         <TrackListItem item={item} idx={idx} handleRemove={handleRemove} />
       </div>
-      {/* --modal-- */}
-      <TrackModal
+      <Modal
         open={isOpen}
         setOpen={setIsOpen}
-        buttons={<button className="btn btn-smlr btn-primary" onClick={() => handleRemove(idx)}>削除する</button>}
-        result={item}
-      />
+        title="楽曲情報"
+      >
+        <TrackModalContent item={item} />
+        <ModalActions>
+          <button className="btn btn-smlr btn-primary" onClick={() => handleRemove(idx)}>削除する</button>
+        </ModalActions>
+      </Modal>
     </>
   );
 }
