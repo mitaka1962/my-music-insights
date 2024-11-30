@@ -1,13 +1,17 @@
 export default function ModalActions({
-  children
+  children,
+  submit = false,
 }: {
   children: React.ReactNode;
+  submit?: boolean;
 }) {
   return (
     <div className="modal-action -mx-2">
-      <form method="dialog">
-        {children}
-      </form>
+      {submit ? children : (
+        <form method="dialog">
+          {children}
+        </form>
+      )}
     </div>    
   );
 }

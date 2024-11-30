@@ -3,11 +3,11 @@ import { Track } from "@/lib/definitions";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSchema, formSchema } from "@/lib/validations/share-mylist-form";
+import { defaultUserName, FormSchema, formSchema, listNameMax, userNameMax } from "@/lib/validations/share-mylist-form";
 import ValidatedInput from "@/components/create/validated-input";
 import ModalActions from "@/components/modal/modal-actions";
 
-const colorList = ['#ff0000', '#0000ff', '#ffff00', '#00ff00', '#00ffff']
+const colorList = ['#808080', '#ff0000', '#0000ff', '#ffff00', '#00ff00', '#00ffff']
 
 export default function CreateMylistForm({
   selectedTrackList,
@@ -18,6 +18,7 @@ export default function CreateMylistForm({
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -26,27 +27,34 @@ export default function CreateMylistForm({
       color: colorList[0],
     }
   });
-
+  
+  const currentUserName = watch('userName')?.trim();
   const selectedColor = watch('color');
+  if (!currentUserName && selectedColor !== colorList[0]) {
+    setValue('color', colorList[0]);
+  }
 
-  const onSubmitForm: SubmitHandler<FormSchema> = (data) => {
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+    await new Promise(r => setTimeout(r, 5000));
     console.log(data);    
   };
 
   return (
-    <form id="share" onSubmit={handleSubmit(async (data) => { await new Promise(r => setTimeout(r, 5000)); console.log(data)}, (error) => console.log(error))} className="flex flex-col">
+    <form id="share" onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <ValidatedInput
         name="listName"
         label="マイリスト名"
         register={register}
         errors={errors}
-        placeholder="例）私の名曲○選" />
+        placeholder="例）私の名曲○選"
+        max={listNameMax} />
       <ValidatedInput
         name="userName"
         label={<>ニックネーム&nbsp;<span className="text-xs align-bottom text-base-content/80">(任意)</span></>}
         register={register}
         errors={errors}
-        placeholder="匿名さん"
+        placeholder={defaultUserName}
+        max={userNameMax}
         autoComplete="on" />
       <div className="form-control">
         <div className="label">
@@ -62,13 +70,14 @@ export default function CreateMylistForm({
                 type="radio"
                 value={color}
                 aria-label={color}
-                className="appearance-none cursor-pointer w-8 h-8 rounded ring-base-content/20 ring-offset-base-100 ring-offset-2 checked:ring-2"
-                style={{ backgroundColor: color }} />
+                className="appearance-none cursor-pointer w-8 h-8 rounded border ring-base-content/20 ring-offset-base-100 ring-offset-2 checked:ring-2 disabled:cursor-default disabled:opacity-20 disabled:checked:opacity-100"
+                style={{ backgroundColor: color }}
+                disabled={!currentUserName} />
             ))}
           </fieldset>
         </div>
       </div>
-      <ModalActions>
+      <ModalActions submit={true}>
         <button type="submit" form="share" className="btn btn-smlr btn-primary" disabled={isSubmitting}>公開する</button>
       </ModalActions>
     </form>

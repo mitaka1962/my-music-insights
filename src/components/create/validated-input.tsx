@@ -8,6 +8,7 @@ export default function ValidatedInput({
   register,
   errors,
   placeholder = '',
+  max,
   autoComplete = 'off',
 }: {
   name: keyof FormSchema;
@@ -15,6 +16,7 @@ export default function ValidatedInput({
   register: UseFormRegister<FormSchema>;
   errors: FieldErrors<FormSchema>;
   placeholder?: string;
+  max?: number;
   autoComplete?: string;
 }) {
   return (
@@ -29,10 +31,11 @@ export default function ValidatedInput({
         placeholder={placeholder}
         autoComplete={autoComplete}
         className={clsx("input input-bordered input-sm w-full", { 'input-error': errors[name] })} />
-      <div className="label py-1">
-        <span className="label-text-alt text-error min-h-4">
+      <div className="label py-1 items-start">
+        <span className={clsx("label-text-alt min-h-4", errors[name] ? 'text-error' : 'text-opacity-70')}>
           {errors[name] && errors[name].message}
         </span>
+        {max ? <span className="label-text-alt text-nowrap text-opacity-60">{`最大${max}文字`}</span> : null}
       </div>
     </div>
   );

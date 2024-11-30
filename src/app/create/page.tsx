@@ -42,7 +42,6 @@ export default function Page() {
   const [selectedTrackList, dispatch] = useReducer(reducer, []);
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const isEmpty = selectedTrackList.length === 0;
 
   const handleRemove = (idx: number) => dispatch({ type: 'remove', payload: idx });

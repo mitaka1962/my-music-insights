@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 export const defaultUserName = '匿名さん';
+export const listNameMax = 100;
+export const userNameMax = 30;
 
 export const formSchema = z.object({
   trackId: z
@@ -12,10 +14,10 @@ export const formSchema = z.object({
     .string()
     .trim()
     .min(1, 'マイリスト名を入力してください。' )
-    .max(100, 'マイリスト名は100文字以内にしてください。'),
+    .max(listNameMax, `マイリスト名は${listNameMax}文字以内にしてください。`),
   userName: z
     .string()
-    .max(30, 'ニックネームは30文字以内にしてください。' )
+    .max(userNameMax, `ニックネームは${userNameMax}文字以内にしてください。` )
     .transform((val) => val.trim() === '' ? defaultUserName : val),
   color: z
     .string({message: '色を選んでください。'})
