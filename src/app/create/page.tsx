@@ -10,21 +10,11 @@ import Modal from "@/components/modal/modal";
 import CreateMylistForm from "@/components/create/create-mylist-form";
 import ModalActions from "@/components/modal/modal-actions";
 
-const LIST_MAX = 10;
+const TRACK_LIST_MAX = 10;
 
 function reducer(state: Track[], action: { type: string, payload?: any }) {
   switch (action.type) {
     case 'add': {
-      if (state.length >= LIST_MAX) {
-        alert('追加できるトラックは最大10枚です。');
-        return state;
-      }
-
-      if (state.some((track) => track.id === action.payload.id)) {
-        alert('既に追加済みのトラックです。');
-        return state;
-      }
-
       return [...state, action.payload];
     }
     case 'remove': {
@@ -44,6 +34,20 @@ export default function Page() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const isEmpty = selectedTrackList.length === 0;
 
+  const handleAdd = (track: Track) => {
+    if (selectedTrackList.length >= TRACK_LIST_MAX) {
+      alert(`追加できるトラックは最大${TRACK_LIST_MAX}枚です。`);
+      return;
+    }
+
+    if (selectedTrackList.some((item) => item.id === track.id)) {
+      alert('既に追加済みのトラックです。');
+      return;
+    }
+
+    dispatch({ type: 'add', payload: track });
+  }
+
   const handleRemove = (idx: number) => dispatch({ type: 'remove', payload: idx });
 
   const handleClearButtonClick = () => setIsClearModalOpen(true);
@@ -56,10 +60,11 @@ export default function Page() {
     }
   };
 
+  // render props for SideSearch component
   const resultCard = (result: Track | Album) => (
     <SearchResultCardForCreate
       result={result as Track}
-      handleAdd={(track: Track) => dispatch({ type: 'add', payload: track })} />
+      handleAdd={handleAdd} />
   );
 
   return (
@@ -89,9 +94,9 @@ export default function Page() {
         </div>
         <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 overflow-y-auto py-4">
           {selectedTrackList.map((item, idx) => (
-            <TrackListItemWithModal key={`${item.id}_${idx}`} item={item} idx={idx} handleRemove={handleRemove} />
+            <TrackListItemWithModal key={item.id} item={item} idx={idx} handleRemove={handleRemove} />
           ))}
-          {selectedTrackList.length < LIST_MAX ? (
+          {selectedTrackList.length < TRACK_LIST_MAX ? (
             <div className="grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1">
               <PlusIcon className="w-6 text-base-content/30" />
             </div>
