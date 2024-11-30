@@ -8,7 +8,7 @@ export interface Track {
     name: string;
   }>;
   type: string;
-  preview_url: string;
+  // preview_url: string;
   external_urls: { spotify: string; };
 }
 
@@ -37,28 +37,28 @@ export interface SearchResult {
   albums: { items: Album[]; };
 }
 
-export interface NormalizedAudioFeatures {
-  acousticness: number
-  danceability: number
-  energy: number
-  instrumentalness: number
-  liveness: number
-  speechiness: number
-  valence: number 
-}
+// export interface NormalizedAudioFeatures {
+//   acousticness: number
+//   danceability: number
+//   energy: number
+//   instrumentalness: number
+//   liveness: number
+//   speechiness: number
+//   valence: number 
+// }
 
-export type AudioFeatures = NormalizedAudioFeatures & {
-  duration_ms: number
-  key: number
-  mode: number
-  time_signature: number
-  tempo: number
-  loudness: number
-}
+// export type AudioFeatures = NormalizedAudioFeatures & {
+//   duration_ms: number
+//   key: number
+//   mode: number
+//   time_signature: number
+//   tempo: number
+//   loudness: number
+// }
 
-export interface SeveralAudioFeatures {
-  audio_features: AudioFeatures[];
-}
+// export interface SeveralAudioFeatures {
+//   audio_features: AudioFeatures[];
+// }
 
 export type SpotifySearchParams = {
   q?: string;

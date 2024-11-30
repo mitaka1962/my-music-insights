@@ -46,10 +46,10 @@ export async function getSeveralTracksInfoData(ids: string): Promise<SeveralTrac
   return data;
 }
 
-export async function getSeveralTracksImageUrls(ids: string) {
+export async function getSeveralTracksImageUrls(ids: string): Promise<string[] | null> {
   const data = await getSeveralTracksInfoData(ids);
   if (!data) return null;
-  return data.tracks.map(item => item.album.images[1].url);
+  return data.tracks.map(item => item.album.images[1]?.url);
 }
 
 export async function getAlbumInfoData(id: string): Promise<Album | null> {
@@ -70,7 +70,8 @@ export async function getAlbumInfoData(id: string): Promise<Album | null> {
 //   return data;
 // }
 
-export async function getAllMylists(): Promise<MylistCardData[]> {
+// return 16 mylists (16 * 3 images < 50) 
+export async function getBatchMylists(): Promise<MylistCardData[]> {
   const mylists = await prisma.mylist.findMany({
     select: {
       id: true,
@@ -95,6 +96,7 @@ export async function getAllMylists(): Promise<MylistCardData[]> {
     orderBy: {
       createdAt: 'desc',
     },
+    take: 16,
   });
   return mylists;
 }

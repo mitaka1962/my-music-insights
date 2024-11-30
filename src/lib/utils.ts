@@ -1,4 +1,4 @@
-import { Album, AudioFeatures, MylistCardData, NormalizedAudioFeatures, SpotifySearchParams, Track } from '@/lib/definitions'
+import { Album, SpotifySearchParams, Track } from '@/lib/definitions'
 
 export function convertTime(msec: number): string {
   const totalSec = Math.floor(msec / 1000);
@@ -27,26 +27,26 @@ export function convertPercentage(f: number): number{
   return Math.round(f * 100);
 }
 
-export function calculateSumFeature(features: AudioFeatures[], key: keyof AudioFeatures): number {
-  // feature might be null
-  return features.map((feature) => !feature ? 0 : feature[key]).reduce((acc, v) => acc + v, 0);
-}
+// export function calculateSumFeature(features: AudioFeatures[], key: keyof AudioFeatures): number {
+//   // feature might be null
+//   return features.map((feature) => !feature ? 0 : feature[key]).reduce((acc, v) => acc + v, 0);
+// }
 
-export function calculateAverageFeature(features: AudioFeatures[], key: keyof AudioFeatures): number {
-  return calculateSumFeature(features, key) / features.filter(Boolean).length;
-}
+// export function calculateAverageFeature(features: AudioFeatures[], key: keyof AudioFeatures): number {
+//   return calculateSumFeature(features, key) / features.filter(Boolean).length;
+// }
 
-export function getAverageFeaturesData(features: AudioFeatures[]): NormalizedAudioFeatures {
-  return {
-    acousticness: calculateAverageFeature(features, 'acousticness'),
-    danceability: calculateAverageFeature(features, 'danceability'),
-    energy: calculateAverageFeature(features, 'energy'),
-    instrumentalness: calculateAverageFeature(features, 'instrumentalness'),
-    liveness: calculateAverageFeature(features, 'liveness'),
-    speechiness: calculateAverageFeature(features, 'speechiness'),
-    valence: calculateAverageFeature(features, 'valence'),
-  };
-}
+// export function getAverageFeaturesData(features: AudioFeatures[]): NormalizedAudioFeatures {
+//   return {
+//     acousticness: calculateAverageFeature(features, 'acousticness'),
+//     danceability: calculateAverageFeature(features, 'danceability'),
+//     energy: calculateAverageFeature(features, 'energy'),
+//     instrumentalness: calculateAverageFeature(features, 'instrumentalness'),
+//     liveness: calculateAverageFeature(features, 'liveness'),
+//     speechiness: calculateAverageFeature(features, 'speechiness'),
+//     valence: calculateAverageFeature(features, 'valence'),
+//   };
+// }
 
 export function capitalizeFirstLetter(str: string): string {
   if (!str) return '';
@@ -67,10 +67,4 @@ export function getSpotifyMinImageUrl(item: Track | Album): string {
   if ('album' in item)
     return item.album.images[item.album.images.length - 1].url;
   return item.images[item.images.length - 1].url;
-}
-
-export function extractTrackIdList(mylists: MylistCardData[]): string[] {
-  return mylists.flatMap(
-    (mylist: { tracks: { trackId: string }[] }) => mylist.tracks.map(item => item.trackId)
-  );
 }
