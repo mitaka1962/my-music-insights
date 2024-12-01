@@ -30,7 +30,7 @@ export default function MetadataInfo({
         <div className="flex flex-col gap-3">
           <span className="w-fit px-3 py-0.5 bg-base-content/5 rounded-md font-medium text-sm">{capitalizeFirstLetter(type)}</span>
           <h1 className="card-title">
-            <span className={clsx("font-extrabold", small ? 'text-2xl truncate' : 'text-4xl')}>{title}</span>
+            <span className={clsx("font-extrabold", small ? 'text-2xl truncate' : 'text-3xl')}>{title}</span>
           </h1>
         </div>   
         <div className="grow flex flex-col gap-2">

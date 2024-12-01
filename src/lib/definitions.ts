@@ -23,7 +23,7 @@ export interface Album {
   artists: Array<{
     name: string;
   }>;
-  tracks: { items: Track[]; };
+  tracks: { items: Omit<Track, 'album'>[]; };
   type: string;
   release_date: string;
   external_urls: { spotify: string; };

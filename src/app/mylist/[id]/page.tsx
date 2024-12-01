@@ -1,4 +1,4 @@
-import TrackTable from "@/components/mylist/track-table";
+import TrackTable from "@/components/track-table";
 import { getMylist, getSeveralTracksInfoData } from "@/lib/getter";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { notFound } from "next/navigation";
@@ -20,7 +20,7 @@ export default async function MylistPage({
   
   return (
     <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
-      <div className="flex flex-col gap-6 px-6 py-8 min-h-full overflow-auto">
+      <main className="flex flex-col gap-6 px-6 py-8 min-h-full overflow-auto">
         <div className="card card-bordered">
           <div className="card-body gap-4">
             <h1 className="card-title text-2xl">{mylist.name}</h1>
@@ -32,7 +32,7 @@ export default async function MylistPage({
           </div>
         </div>
         {trackList ? <TrackTable trackList={trackList} /> : <p className="text-error">Error has occured...</p>}
-      </div>
+      </main>
     </div>
   );
 }

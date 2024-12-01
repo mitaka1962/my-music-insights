@@ -69,9 +69,9 @@ export default function Page() {
 
   return (
     <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)] h-full">
-      <div className="px-8 py-10 min-h-full overflow-y-auto">
+      <div className="px-6 py-8 min-h-full overflow-y-auto">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
-          <h1 className="font-bold text-2xl">マイリストを新規作成</h1>
+          <h1 className="font-bold text-xl">マイリストを新規作成</h1>
           <button className="btn btn-smlr" onClick={handleClearButtonClick} disabled={isEmpty}>すべて削除</button>
           <Modal
             open={isClearModalOpen}
@@ -101,9 +101,9 @@ export default function Page() {
               <div
                 aria-label="楽曲を検索して追加しましょう！"
                 tabIndex={0}
-                className="grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
+                className="group grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
               >
-                <PlusIcon className="w-6 text-base-content/30" />
+                <PlusIcon className="w-6 text-base-content/30 group-hover:text-base-content/50" />
               </div>
             </div>            
           ) : null}

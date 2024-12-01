@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Track } from "@/lib/definitions";
 import { convertTime, getSpotifyMinImageUrl } from "@/lib/utils";
-import SpotifyButton from "../spotify-button";
+import SpotifyButton from "./spotify-button";
 import Link from "next/link";
 
 export default function TrackTable({
@@ -35,7 +35,7 @@ export default function TrackTable({
                 unoptimized={true} />
             </td>
             <td>
-              <Link className="link-hover" href={`/search/track/${track.id}`}>{track.name}</Link>
+              <Link className="link-hover text-sm" href={`/search/track/${track.id}`}>{track.name}</Link>
             </td>
             <td>{track.artists[0].name}</td>
             <td>{convertTime(track.duration_ms)}</td>

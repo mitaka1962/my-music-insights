@@ -14,20 +14,20 @@ export default function TrackListItem({
   handleRemove?: (idx: number) => void;
 }) {
   return (
-    <div className={clsx("flex gap-4 py-1.5 px-5 rounded-xl items-center border border-base-content/15 animate-fadein-up",
+    <div className={clsx("flex gap-4 py-2 px-5 rounded-xl items-center border border-base-content/15 animate-fadein-up",
       { 'hover:border-base-content/60' : handleRemove }
     )}>
-      <div className="text-lg w-4 text-center text-base-content/80">{idx + 1}</div>
+      <div className="w-4 text-center">{idx + 1}</div>
       <Image
-        className="min-w-[64px] aspect-square object-cover rounded-sm border border-base-content/5"
+        className="min-w-[64px] aspect-square object-cover rounded border border-base-content/5"
         src={getSpotifyMinImageUrl(item)}
         alt={`${item.name}のジャケット画像`}
         width={64}
         height={64}
         unoptimized={true} />        
-      <div className="grow min-w-0 h-[64px] flex flex-col justify-center">
-        <div className="font-medium truncate">{item.name}</div>
-        <div className="text-base-content/80 text-sm truncate">{item.artists[0].name}</div>
+      <div className="grow min-w-0 h-[64px] flex flex-col gap-0.5 justify-center">
+        <div className="truncate">{item.name}</div>
+        <div className="text-base-content/70 text-sm truncate">{item.artists[0].name}</div>
       </div>
       {handleRemove ? (
         <button
