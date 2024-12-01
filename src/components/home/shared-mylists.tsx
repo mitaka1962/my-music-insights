@@ -1,4 +1,4 @@
-import { getBatchMylists, getSeveralTracksImageUrls, getSeveralTracksInfoData, getTrackInfoData } from "@/lib/getter";
+import { getBatchMylists, getSeveralTracksImageUrls } from "@/lib/getter";
 import MylistCard from "@/components/home/mylist-card";
 import { MylistCardData } from "@/lib/definitions";
 
@@ -18,6 +18,7 @@ export default async function SharedMylists() {
       {mylists.map((mylist, idx) => (
         <MylistCard
           key={mylist.id}
+          id={mylist.id}
           title={mylist.name}
           date={mylist.createdAt}
           userName={mylist.user.name}

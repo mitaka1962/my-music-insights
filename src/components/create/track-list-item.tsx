@@ -19,7 +19,7 @@ export default function TrackListItem({
     )}>
       <div className="text-lg w-4 text-center text-base-content/80">{idx + 1}</div>
       <Image
-        className="rounded-sm border border-base-content/5"
+        className="min-w-[64px] aspect-square object-cover rounded-sm border border-base-content/5"
         src={getSpotifyMinImageUrl(item)}
         alt={`${item.name}のジャケット画像`}
         width={64}
@@ -30,9 +30,13 @@ export default function TrackListItem({
         <div className="text-base-content/80 text-sm truncate">{item.artists[0].name}</div>
       </div>
       {handleRemove ? (
-        <button className="transition-transform hover:opacity-70 active:scale-90" onClick={() => handleRemove(idx)}>
-          <XMarkIcon className="w-6" />
-        </button> 
+        <button
+          className="btn btn-sm btn-circle btn-ghost"
+          onClick={() => handleRemove(idx)}
+          aria-label="閉じる"
+        >
+          <XMarkIcon className="w-5 h-5" />
+        </button>
       ) : null}
     </div>
   );

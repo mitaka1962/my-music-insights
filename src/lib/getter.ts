@@ -1,4 +1,4 @@
-import { Album, MylistCardData, SeveralTracks, Track } from "@/lib/definitions";
+import { Album, MylistCardData, Track } from "@/lib/definitions";
 import prisma from "@/lib/prisma";
 
 export async function getSpotifyData(endpoint: string) {
@@ -40,16 +40,16 @@ export async function getTrackInfoData(id: string): Promise<Track | null> {
   return data;
 }
 
-export async function getSeveralTracksInfoData(ids: string): Promise<SeveralTracks | null> {
+export async function getSeveralTracksInfoData(ids: string): Promise<Track[] | null> {
   if (!ids) return null;
   const data = await getSpotifyData(`/tracks?ids=${ids}`);
-  return data;
+  return data.tracks;
 }
 
 export async function getSeveralTracksImageUrls(ids: string): Promise<string[] | null> {
   const data = await getSeveralTracksInfoData(ids);
   if (!data) return null;
-  return data.tracks.map(item => item.album.images[1]?.url);
+  return data.map(item => item.album.images[1]?.url);
 }
 
 export async function getAlbumInfoData(id: string): Promise<Album | null> {
@@ -70,19 +70,42 @@ export async function getAlbumInfoData(id: string): Promise<Album | null> {
 //   return data;
 // }
 
+export async function getMylist(id: string) {
+  const mylist = await prisma.mylist.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      name: true,
+      user: true,
+      createdAt: true,
+      tracks: {
+        select: {
+          trackId: true,
+        },
+        orderBy: {
+          position: 'asc',
+        },
+      },
+    },
+  });
+  
+  return mylist;
+}
+
 // return 16 mylists (16 * 3 images < 50) 
 export async function getBatchMylists(): Promise<MylistCardData[]> {
   const mylists = await prisma.mylist.findMany({
     select: {
       id: true,
       name: true,
-      createdAt: true,
       user: {
         select: {
           name: true,
           imageColor: true,
         },
       },
+      createdAt: true,
       tracks: {
         select: {
           trackId: true,
@@ -98,5 +121,6 @@ export async function getBatchMylists(): Promise<MylistCardData[]> {
     },
     take: 16,
   });
+
   return mylists;
 }

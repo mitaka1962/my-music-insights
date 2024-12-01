@@ -3,12 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function MylistCard({
+  id,
   title,
   date,
   userName,
   userColor,
   imageUrls = [null, null, null],
 }: {
+  id: string;
   title: string;
   date: Date;
   userName: string;
@@ -18,8 +20,8 @@ export default function MylistCard({
   return (
     <div className="card card-bordered border-base-content/10">
       <div className="card-body p-6 pb-4">
-        <h3 className="card-title">
-          <Link href="/" className="link-hover overflow-hidden text-nowrap text-ellipsis">
+        <h3 className="card-title text-lg">
+          <Link href={`/mylist/${id}`} className="link-hover overflow-hidden text-nowrap text-ellipsis">
             {title}
           </Link>          
         </h3>

@@ -68,8 +68,8 @@ export default function Page() {
   );
 
   return (
-    <div className="flex h-full">
-      <div className="w-3/4 grid grid-rows-[auto_minmax(0,1fr)] px-8 py-10">
+    <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)] h-full">
+      <div className="px-8 py-10 min-h-full overflow-y-auto">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
           <h1 className="font-bold text-2xl">マイリストを新規作成</h1>
           <button className="btn btn-smlr" onClick={handleClearButtonClick} disabled={isEmpty}>すべて削除</button>
@@ -92,18 +92,24 @@ export default function Page() {
             <CreateMylistForm selectedTrackList={selectedTrackList} />
           </Modal>
         </div>
-        <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 overflow-y-auto py-4">
+        <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 py-4">
           {selectedTrackList.map((item, idx) => (
             <TrackListItemWithModal key={item.id} item={item} idx={idx} handleRemove={handleRemove} />
           ))}
           {selectedTrackList.length < TRACK_LIST_MAX ? (
-            <div className="grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1">
-              <PlusIcon className="w-6 text-base-content/30" />
-            </div>
+            <div className="tooltip" data-tip="楽曲を検索して追加しましょう！">
+              <div
+                aria-label="楽曲を検索して追加しましょう！"
+                tabIndex={0}
+                className="grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
+              >
+                <PlusIcon className="w-6 text-base-content/30" />
+              </div>
+            </div>            
           ) : null}
         </div>
       </div>
-      <div className="w-1/4 border-l border-base-content/15 overflow-y-scroll">
+      <div className="border-l border-base-content/15 overflow-y-scroll">
         <SideSearch disableAlbum={true} card={resultCard} />
       </div>
     </div>

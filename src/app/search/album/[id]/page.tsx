@@ -1,8 +1,9 @@
-import { getAlbumInfoData, getSeveralTracksFeaturesData } from "@/lib/getter";
+import { getAlbumInfoData } from "@/lib/getter";
 import FeaturesInfo from "@/components/search/features-info";
-import { calculateAverageFeature, calculateSumFeature, convertTime, getAverageFeaturesData } from "@/lib/utils";
+import {convertTime } from "@/lib/utils";
 import MetadataInfo from "@/components/search/metadata-info";
 import CoverImage from "@/components/search/cover-image";
+import { notFound } from "next/navigation";
 
 export default async function AlbumInfoPage({
   params,
@@ -17,7 +18,7 @@ export default async function AlbumInfoPage({
 
   // Error message
   if (!catalogData) {
-    return 'Failed to fetch data from Spotify Web API';
+    notFound();
   };
 
   // const infoList = [

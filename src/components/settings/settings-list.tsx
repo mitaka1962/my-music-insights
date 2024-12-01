@@ -12,7 +12,7 @@ export default function SettingsList() {
       </div>
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-bold">About</h2>
-        <a className="btn btn-smlr btn-outline rounded-full" href="https://mitaka.boo.jp/" target="_blank">
+        <a className="btn btn-outline rounded-full" href="https://mitaka.boo.jp/" target="_blank">
           Blog
           <ArrowTopRightOnSquareIcon className="w-5" />
         </a>

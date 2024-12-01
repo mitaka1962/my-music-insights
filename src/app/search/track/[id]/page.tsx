@@ -1,9 +1,10 @@
-import { getTrackInfoData, getTrackFeaturesData } from "@/lib/getter";
+import { getTrackInfoData } from "@/lib/getter";
 import FeaturesInfo from "@/components/search/features-info";
 import { convertTime, getKeyString } from "@/lib/utils";
 import PreviewButton from "@/components/search/preview-button";
 import MetadataInfo from "@/components/search/metadata-info";
 import CoverImage from "@/components/search/cover-image";
+import { notFound } from "next/navigation";
 
 export default async function TrackInfoPage({
   params,
@@ -14,7 +15,7 @@ export default async function TrackInfoPage({
 
   // Error message
   if (!catalogData) {
-    return 'Failed to fetch data from Spotify Web API';
+    notFound();
   };
 
   // const infoList = [

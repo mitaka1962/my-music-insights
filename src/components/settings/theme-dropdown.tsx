@@ -19,7 +19,7 @@ export default function ThemeDropdown() {
 
   return (
     <div ref={ref} className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-smlr">
+      <div tabIndex={0} role="button" className="btn">
         {translateThemeName(theme)}
         <ChevronDownIcon className="w-5" />
       </div>

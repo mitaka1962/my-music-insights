@@ -1,4 +1,4 @@
-import SpotifyButton from "@/components/search/spotify-button";
+import SpotifyButton from "@/components/spotify-button";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import clsx from "clsx";
 import Link from "next/link";
