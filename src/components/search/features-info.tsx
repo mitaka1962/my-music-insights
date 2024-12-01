@@ -1,4 +1,4 @@
-import { AudioFeatures } from "@/lib/definitions";
+import { AudioFeatures, NormalizedAudioFeatures } from "@/lib/definitions";
 import { convertPercentage } from "@/lib/utils";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
@@ -7,7 +7,7 @@ export default function FeaturesInfo({
   features,
 }: {
   info: Array<{name: string, value: number | string}>;
-  features: AudioFeatures;
+  features: NormalizedAudioFeatures;
 }) {
   const featuresList = [
     { name: 'acousticness', value: features.acousticness,
@@ -46,7 +46,12 @@ export default function FeaturesInfo({
               <div key={item.name}>
                 <div className="flex gap-1 items-center text-base-content/80 text-sm">
                   {item.name}
-                  <div className="tooltip before:w-56" data-tip={item.desc}>
+                  <div
+                    tabIndex={0}
+                    aria-label="特徴量の詳細"
+                    className="tooltip before:w-56 focus-visible:before:opacity-100 focus-visible:after:opacity-100"
+                    data-tip={item.desc}
+                  >
                     <InformationCircleIcon className="w-4 hover:text-black dark:hover:text-white" />
                   </div>
                 </div>

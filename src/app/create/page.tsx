@@ -1,22 +1,20 @@
 'use client';
 
 import SideSearch from "@/components/side-search/side-search";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import SearchResultCardForCreate from "@/components/side-search/search-result-card-for-create";
-import { Track } from "@/lib/definitions";
-import TrackListItem from "@/components/create/track-list-item";
-import { useRouter } from "next-nprogress-bar";
-import { usePathname } from "next/navigation";
+import { Album, Track } from "@/lib/definitions";
+import TrackListItemWithModal from "@/components/create/track-list-item-with-modal";
+import Modal from "@/components/modal/modal";
+import CreateMylistForm from "@/components/create/create-mylist-form";
+import ModalActions from "@/components/modal/modal-actions";
 
-const LIST_MAX = 10;
+const TRACK_LIST_MAX = 10;
 
 function reducer(state: Track[], action: { type: string, payload?: any }) {
   switch (action.type) {
     case 'add': {
-      if (state.length >= LIST_MAX || !action.payload) {
-        return state;
-      }
       return [...state, action.payload];
     }
     case 'remove': {
@@ -26,48 +24,93 @@ function reducer(state: Track[], action: { type: string, payload?: any }) {
       return [];
     }
   }
-
+  
   throw Error('Unknown action: ' + action.type);
 }
 
 export default function Page() {
-  const router = useRouter();
   const [selectedTrackList, dispatch] = useReducer(reducer, []);
+  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const isEmpty = selectedTrackList.length === 0;
 
-  const handleAdd = (track: Track) => dispatch({ type: 'add', payload: track });
+  const handleAdd = (track: Track) => {
+    if (selectedTrackList.length >= TRACK_LIST_MAX) {
+      alert(`追加できるトラックは最大${TRACK_LIST_MAX}枚です。`);
+      return;
+    }
+
+    if (selectedTrackList.some((item) => item.id === track.id)) {
+      alert('既に追加済みのトラックです。');
+      return;
+    }
+
+    dispatch({ type: 'add', payload: track });
+  }
+
   const handleRemove = (idx: number) => dispatch({ type: 'remove', payload: idx });
-  const handleClear = () => dispatch({ type: 'clear' });
 
-  const handleAnalysis = () => {
-    if (selectedTrackList.length === 0) return;
-    
-    const trackIds = selectedTrackList.map(item => item.id).join(',');
-    router.push(`/create/analysis?q=${trackIds}`);
+  const handleClearButtonClick = () => setIsClearModalOpen(true);
+
+  const handleShareButtonClick = () => {
+    if (selectedTrackList.length < 3) {
+      alert('トラックは最低3つ必要です。');
+    } else {
+      setIsShareModalOpen(true);
+    }
   };
 
+  // render props for SideSearch component
+  const resultCard = (result: Track | Album) => (
+    <SearchResultCardForCreate
+      result={result as Track}
+      handleAdd={handleAdd} />
+  );
+
   return (
-    <div className="flex h-full">
-      <div className="w-3/4 grid grid-rows-[auto_minmax(0,1fr)] px-8 py-10">
+    <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)] h-full">
+      <div className="px-6 py-8 min-h-full overflow-y-auto">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
-          <h1 className="font-bold text-2xl">お気に入りリストを新規作成</h1>
-          <button className="btn" onClick={handleClear}>すべて削除</button>
-          <button className="btn btn-primary" onClick={handleAnalysis}>分析する</button>
+          <h1 className="font-bold text-xl">マイリストを新規作成</h1>
+          <button className="btn btn-smlr" onClick={handleClearButtonClick} disabled={isEmpty}>すべて削除</button>
+          <Modal
+            open={isClearModalOpen}
+            setOpen={setIsClearModalOpen}
+            title="確認"
+          >
+            本当にすべて削除しますか？
+            <ModalActions>
+              <button className="btn btn-smlr btn-neutral" onClick={() => dispatch({ type: 'clear' })}>削除する</button>
+            </ModalActions>
+          </Modal>
+          <button className="btn btn-smlr btn-neutral" onClick={handleShareButtonClick}>公開する</button>
+          <Modal
+            open={isShareModalOpen}
+            setOpen={setIsShareModalOpen}
+            title="名前を付けて公開"
+          >
+            <CreateMylistForm selectedTrackList={selectedTrackList} />
+          </Modal>
         </div>
-        <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 overflow-y-auto py-4">
+        <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 py-4">
           {selectedTrackList.map((item, idx) => (
-            <TrackListItem key={`${item.id}_${idx}`} item={item} idx={idx} handleRemove={handleRemove} />
+            <TrackListItemWithModal key={item.id} item={item} idx={idx} handleRemove={handleRemove} />
           ))}
-          {selectedTrackList.length < LIST_MAX ? (
-            <div className="grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1">
-              <PlusIcon className="w-6 text-base-content/30" />
-            </div>
+          {selectedTrackList.length < TRACK_LIST_MAX ? (
+            <div className="tooltip" data-tip="楽曲を検索して追加しましょう！">
+              <div
+                aria-label="楽曲を検索して追加しましょう！"
+                tabIndex={0}
+                className="group grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
+              >
+                <PlusIcon className="w-6 text-base-content/30 group-hover:text-base-content/50" />
+              </div>
+            </div>            
           ) : null}
         </div>
       </div>
-      <div className="w-1/4 border-l border-base-content/15 overflow-y-scroll">
-        <SideSearch disableAlbum={true} card={
-          (result) => <SearchResultCardForCreate result={result as Track} handleAdd={handleAdd} />
-        } />
+      <div className="border-l border-base-content/15 overflow-y-scroll">
+        <SideSearch disableAlbum={true} card={resultCard} />
       </div>
     </div>
   );

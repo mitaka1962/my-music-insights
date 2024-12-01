@@ -5,7 +5,7 @@ import ThemeDropdown from "./theme-dropdown";
 
 export default function SettingsList() {
   return (
-    <div className="grid grid-cols-1 gap-10">
+    <div className="grid grid-cols-1 gap-8">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-bold">テーマ</h2>
         <ThemeDropdown />

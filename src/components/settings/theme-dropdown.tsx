@@ -10,8 +10,12 @@ const themeList = ['system', 'light', 'dark'];
 
 export default function ThemeDropdown() {
   const { theme, setTheme } = useTheme();
-
   const ref = useRef<HTMLDivElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, item: string) => {
+    setTheme(item);
+    e.currentTarget.blur();
+  };
 
   return (
     <div ref={ref} className="dropdown dropdown-end">
@@ -24,10 +28,7 @@ export default function ThemeDropdown() {
           <li key={item}>
             <button
               className={clsx({ 'bg-base-content/10' : theme === item })}
-              onClick={(e) => {
-                setTheme(item);
-                e.currentTarget.blur();
-              }}
+              onClick={(e) => handleClick(e, item)}
             >
               {translateThemeName(item)}
             </button>

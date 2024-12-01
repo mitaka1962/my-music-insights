@@ -32,7 +32,7 @@ export default function SideSearch({
   // Type of displayed search results: track or album
   const [type, setType] = useState<SearchResultType>('track');
 
-  // Fetch data from the Spotify API's search endpoint
+  // Fetch data from the Spotify API's search endpoint (via my own API to run the fetch in a server side)
   const {data, error, isLoading} = useSWRImmutable(
     isEmpty(spotifySearchParams) ? null : spotifySearchParams,
     fetcher

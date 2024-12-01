@@ -17,7 +17,7 @@ export default function SearchResults({
   // loading
   if (isLoading) {
     return (
-      <div className="animate-skeleton-fadein" >
+      <div className="animate-fadein-up-20" >
         <ResultSkeleton />
         <ResultSkeleton />
         <ResultSkeleton />
@@ -38,11 +38,11 @@ export default function SearchResults({
     <DisplayMessage msg={'No results found... \u{1F622}'} />
   ) : (
     <>
-      {items?.map((item: Track | Album) => (
-        <Fragment key={item.id}>
-          {card(item)}
-        </Fragment>
-      ))}
+      {items?.map((item: Track | Album | null) => {
+        if (item) {
+          return <Fragment key={item.id}>{card(item)}</Fragment>;
+        }
+      })}
     </>
   );
 }

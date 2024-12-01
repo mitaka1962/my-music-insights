@@ -41,8 +41,8 @@ export default function SearchInput({
           return (
             <label key={item.label} className="form-control w-full">
               {item.label ? (
-                <div className="label pt-2.5 pb-1 justify-start gap-1">
-                  {Icon ? <Icon className="w-4 text-base-content/80" /> : null}
+                <div className="label pt-2.5 pb-1 justify-start gap-1 text-base-content/70">
+                  {Icon ? <Icon className="w-4" /> : null}
                   <span className="label-text text-base-content/80">{item.label}</span>
                 </div>
               ) : null}
@@ -56,8 +56,8 @@ export default function SearchInput({
           )
         }
       )}
-      <div className="mt-6">
-        <button className="btn btn-sm w-full h-9 gap-1" onClick={handleSearch}>
+      <div className="mt-4">
+        <button className="btn btn-smlr btn-block gap-1" onClick={handleSearch}>
           <MagnifyingGlassIcon className="w-4" />
           Search
         </button>

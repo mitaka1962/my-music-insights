@@ -17,18 +17,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { name: 'Home', href: '', outlineIcon: OutlineHomeIcon, solidIcon: SolidHomeIcon },
-  { name: 'Search', href: 'search', outlineIcon: OutlineMagnifyingGlassIcon, solidIcon: SolidMagnifyingGlassIcon },
-  { name: 'Create', href: 'create', outlineIcon: OutlinePlusCircleIcon, solidIcon: SolidPlusCircleIcon },
+  { name: 'ホーム', path: '', outlineIcon: OutlineHomeIcon, solidIcon: SolidHomeIcon },
+  { name: '検索', path: 'search', outlineIcon: OutlineMagnifyingGlassIcon, solidIcon: SolidMagnifyingGlassIcon },
+  { name: '作成', path: 'create', outlineIcon: OutlinePlusCircleIcon, solidIcon: SolidPlusCircleIcon },
 ];
 
 export default function SideNav() {
   const pathname = usePathname();
   const initialPath = pathname.split('/')[1];   // ex) '/search/track/[id]' => 'search'
 
-  const isCurrentPath = (routeName: string) => {
-    return initialPath === routeName;
-  };
+  const isCurrentPath = (routeName: string) => initialPath === routeName;
 
   return (
     <div className="flex flex-col w-full h-full px-2 py-4 border-r border-base-content/15">
@@ -42,12 +40,13 @@ export default function SideNav() {
 
           return (
             <Link 
-              key={link.name} 
-              href={`/${link.href}`}
-              className={clsx("btn btn-ghost btn-block no-animation justify-start gap-3 active:opacity-60", {
-                "bg-base-content/20" : isCurrentPath(link.href),
-              })}>
-              {isCurrentPath(link.href) ? <SolidIcon className="w-6" /> : <OutlineIcon className="w-6" />}
+              key={link.path}
+              href={`/${link.path}`}
+              className={clsx("btn btn-ghost btn-block no-animation font-normal justify-start gap-3 active:opacity-60", {
+                "bg-base-content/10" : isCurrentPath(link.path),
+              })}
+            >
+              {isCurrentPath(link.path) ? <SolidIcon className="w-6" /> : <OutlineIcon className="w-6" />}
               <p>{link.name}</p>
             </Link>
           );
@@ -55,11 +54,12 @@ export default function SideNav() {
       </div>
       <Link 
         href="/settings"
-        className={clsx("btn btn-ghost btn-block no-animation justify-start gap-3 active:opacity-60", {
-          "bg-base-300" : isCurrentPath('settings'),
-        })}>
+        className={clsx("btn btn-ghost btn-block no-animation font-normal justify-start gap-3 active:opacity-60", {
+          "bg-base-content/10" : isCurrentPath('settings'),
+        })}
+      >
         {isCurrentPath('settings') ? <SolidCog6ToothIcon className="w-6" /> : <OutlineCog6ToothIcon className="w-6" />}
-        <p>Settings</p>
+        <p>設定</p>
       </Link>
     </div>
   );

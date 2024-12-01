@@ -1,3 +1,5 @@
+export type SearchResultType = 'track' | 'album'
+
 export interface Track {
   id: string;
   name: string;
@@ -6,7 +8,8 @@ export interface Track {
     name: string;
   }>;
   type: string;
-  preview_url: string;
+  duration_ms: number;
+  // preview_url: string;
   external_urls: { spotify: string; };
 }
 
@@ -20,18 +23,18 @@ export interface Album {
   artists: Array<{
     name: string;
   }>;
+  tracks: { items: Omit<Track, 'album'>[]; };
   type: string;
   release_date: string;
+  external_urls: { spotify: string; };
 }
-
-export type SearchResultType = 'track' | 'album'
 
 export interface SearchResult {
   tracks: { items: Track[]; };
   albums: { items: Album[]; };
 }
 
-export interface AudioFeatures {
+export interface NormalizedAudioFeatures {
   acousticness: number
   danceability: number
   energy: number
@@ -41,14 +44,18 @@ export interface AudioFeatures {
   valence: number 
 }
 
-export type AudioFeaturesResult = AudioFeatures & {
+export type AudioFeatures = NormalizedAudioFeatures & {
   duration_ms: number
   key: number
   mode: number
   time_signature: number
   tempo: number
   loudness: number
-};
+}
+
+export interface SeveralAudioFeatures {
+  audio_features: AudioFeatures[];
+}
 
 export type SpotifySearchParams = {
   q?: string;
@@ -57,3 +64,16 @@ export type SpotifySearchParams = {
 }
 
 export type CardRenderProp = (result: Track | Album) => React.ReactNode;
+
+export interface MylistCardData {
+  id: string;
+  name: string;
+  user: {
+    name: string;
+    imageColor: string;
+  };
+  createdAt: Date;
+  tracks: {
+    trackId: string;
+  }[];
+}
