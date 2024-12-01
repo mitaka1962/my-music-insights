@@ -26,7 +26,7 @@ export default async function MylistPage({
             <h1 className="card-title text-2xl">{mylist.name}</h1>
             <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-0.5">
               <UserCircleIcon className="w-6 h-6" style={{ color: mylist.user.imageColor }} />
-              <span className="text-base-content/70 overflow-hidden text-nowrap text-ellipsis">{mylist.user.name}</span>
+              <span className="text-base-content/70 text-sm overflow-hidden text-nowrap text-ellipsis">{mylist.user.name}</span>
             </div>
             <span className="text-base-content/70 text-sm text-end">作成日 : {mylist.createdAt.toLocaleDateString('ja-JP')}</span>
           </div>

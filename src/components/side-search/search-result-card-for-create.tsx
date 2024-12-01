@@ -28,7 +28,7 @@ export default function SearchResultCardForCreate({
       >
         <TrackModalContent item={result} />
         <ModalActions>
-          <button className="btn btn-smlr btn-primary" onClick={() => handleAdd(result)}>追加する</button>
+          <button className="btn btn-smlr btn-neutral" onClick={() => handleAdd(result)}>追加する</button>
         </ModalActions>
       </Modal>
     </>

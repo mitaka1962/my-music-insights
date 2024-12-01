@@ -37,7 +37,7 @@ export default function TrackListItemWithModal({
       >
         <TrackModalContent item={item} />
         <ModalActions>
-          <button className="btn btn-smlr btn-primary" onClick={() => handleRemove(idx)}>削除する</button>
+          <button className="btn btn-smlr btn-neutral" onClick={() => handleRemove(idx)}>削除する</button>
         </ModalActions>
       </Modal>
     </>

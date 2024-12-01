@@ -21,7 +21,11 @@
   @apply min-h-10;
   @apply h-10;
 }
-/* change btn-primary's text color */
-.btn-primary {
+/* change btn-neutral's text color */
+.btn-neutral {
   @apply text-base-100;
+}
+[data-theme="dark"] .btn-neutral {
+  @apply text-base-100;
+  @apply bg-slate-100
 }

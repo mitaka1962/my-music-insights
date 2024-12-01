@@ -80,10 +80,10 @@ export default function Page() {
           >
             本当にすべて削除しますか？
             <ModalActions>
-              <button className="btn btn-smlr btn-primary" onClick={() => dispatch({ type: 'clear' })}>削除する</button>
+              <button className="btn btn-smlr btn-neutral" onClick={() => dispatch({ type: 'clear' })}>削除する</button>
             </ModalActions>
           </Modal>
-          <button className="btn btn-smlr btn-primary" onClick={handleShareButtonClick}>公開する</button>
+          <button className="btn btn-smlr btn-neutral" onClick={handleShareButtonClick}>公開する</button>
           <Modal
             open={isShareModalOpen}
             setOpen={setIsShareModalOpen}

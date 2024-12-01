@@ -43,7 +43,7 @@ export default function SearchInput({
               {item.label ? (
                 <div className="label pt-2.5 pb-1 justify-start gap-1 text-base-content/70">
                   {Icon ? <Icon className="w-4" /> : null}
-                  <span className="label-text text-inherit">{item.label}</span>
+                  <span className="label-text text-base-content/80">{item.label}</span>
                 </div>
               ) : null}
               <input

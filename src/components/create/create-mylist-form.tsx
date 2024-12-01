@@ -98,7 +98,7 @@ export default function CreateMylistForm({
         </div>
       </div>
       <ModalActions submit={true}>
-        <button type="submit" form="share" className="btn btn-smlr btn-primary" disabled={isSubmitting}>公開する</button>
+        <button type="submit" form="share" className="btn btn-smlr btn-neutral" disabled={isSubmitting}>公開する</button>
       </ModalActions>
     </form>
   );
