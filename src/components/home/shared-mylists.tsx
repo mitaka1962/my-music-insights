@@ -14,7 +14,7 @@ export default async function SharedMylists() {
   const imageUrls = await getSeveralTracksImageUrls(trackIdsList.join());  
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
       {mylists.map((mylist, idx) => (
         <MylistCard
           key={mylist.id}

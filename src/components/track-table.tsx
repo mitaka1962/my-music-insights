@@ -34,10 +34,12 @@ export default function TrackTable({
                 height={64}
                 unoptimized={true} />
             </td>
-            <td>
-              <Link className="link-hover text-sm" href={`/search/track/${track.id}`}>{track.name}</Link>
+            <td className="w-80 max-w-80">
+              <Link className="link-hover text-sm" href={`/search/track/${track.id}`}>
+                <div className="truncate">{track.name}</div>
+              </Link>
             </td>
-            <td>{track.artists[0].name}</td>
+            <td className="w-40 max-w-40"><div className="truncate">{track.artists[0].name}</div></td>
             <td>{convertTime(track.duration_ms)}</td>
             <td>
               <SpotifyButton href={track.external_urls.spotify} small={true} />
