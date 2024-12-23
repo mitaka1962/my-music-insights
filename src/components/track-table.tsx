@@ -32,7 +32,7 @@ export default function TrackTable({
                 alt={`${track.name}のジャケット画像`}
                 width={64}
                 height={64}
-                unoptimized={true} />
+                unoptimized />
             </td>
             <td className="w-80 max-w-80">
               <Link className="link-hover text-sm" href={`/search/track/${track.id}`}>
@@ -42,7 +42,7 @@ export default function TrackTable({
             <td className="w-40 max-w-40"><div className="truncate">{track.artists[0].name}</div></td>
             <td>{convertTime(track.duration_ms)}</td>
             <td>
-              <SpotifyButton href={track.external_urls.spotify} small={true} />
+              <SpotifyButton href={track.external_urls.spotify} minimized />
             </td>
           </tr>
         ))}

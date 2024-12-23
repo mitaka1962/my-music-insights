@@ -98,7 +98,7 @@ export default function CreateMylistForm({
         </div>
       </div>
       <div className="p-4 bg-base-200 text-xs text-error rounded-lg font-bold mt-6">{'\u26a0 現時点では公開したマイリストは削除できません。個人情報などを含まないように注意してください。'}</div>
-      <ModalActions submit={true}>
+      <ModalActions submit>
         <button type="submit" form="share" className="btn btn-smlr btn-neutral" disabled={isSubmitting}>公開する</button>
       </ModalActions>
     </form>

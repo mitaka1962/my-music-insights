@@ -22,10 +22,10 @@ const fetcher = async (params: SpotifySearchParams) => {
 
 export default function SideSearch({
   card,
-  disableAlbum = false,
+  albumButtonDisabled = false,
 }: {
   card: CardRenderProp;
-  disableAlbum?: boolean;
+  albumButtonDisabled?: boolean;
 }) {
   const [spotifySearchParams, setSpotifySearchParams] = useState<SpotifySearchParams>({});
 
@@ -54,7 +54,7 @@ export default function SideSearch({
             className={clsx("btn btn-sm rounded-full", {
               "btn-neutral" : type === 'album',
             })}
-            disabled={disableAlbum}
+            disabled={albumButtonDisabled}
             onClick={() => setType('album')}>アルバム</button>
         </div>
         <div className="grow flex flex-col">
