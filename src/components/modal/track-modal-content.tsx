@@ -22,7 +22,7 @@ export default function TrackModalContent({
           albumId={item.album.id}
           releaseDate={item.album.release_date}
           spotifyUrl={item.external_urls.spotify}
-          small={true} />
+          simplified />
       </div>
     </div>
   );

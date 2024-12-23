@@ -2,12 +2,12 @@ import { sora } from "@/lib/fonts";
 
 export default function SpotifyButton({
   href,
-  small = false,
+  minimized = false,
 }: {
   href: string;
-  small?: boolean;
+  minimized?: boolean;
 }) {
-  if (small) {
+  if (minimized) {
     return (
       <a role="button" className="btn btn-sm bg-gray-800 text-gray-100 font-medium hover:bg-gray-900" href={href} target="_blank">
         <img className="h-full py-1" src="/spotify-full-logo.svg" alt="spotify link" />

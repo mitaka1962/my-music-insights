@@ -110,7 +110,7 @@ export default function Page() {
         </div>
       </div>
       <div className="border-l border-base-content/15 overflow-y-scroll">
-        <SideSearch disableAlbum={true} card={resultCard} />
+        <SideSearch card={resultCard} albumButtonDisabled />
       </div>
     </div>
   );

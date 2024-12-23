@@ -24,7 +24,7 @@ export default function TrackListItem({
         alt={`${item.name}のジャケット画像`}
         width={64}
         height={64}
-        unoptimized={true} />        
+        unoptimized />        
       <div className="grow min-w-0 h-[64px] flex flex-col gap-0.5 justify-center">
         <div className="truncate">{item.name}</div>
         <div className="text-base-content/70 text-sm truncate">{item.artists[0].name}</div>

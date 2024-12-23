@@ -14,7 +14,7 @@ export default function CoverImage({
       alt={`${name}のカバー画像`}
       width={260}
       height={260}
-      priority={true}
-      unoptimized={true} />
+      priority
+      unoptimized />
   );
 }

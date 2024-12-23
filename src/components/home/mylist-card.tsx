@@ -42,7 +42,7 @@ export default function MylistCard({
                 width={300}
                 height={300}
                 className="w-full aspect-square object-cover"
-                unoptimized={true} />
+                unoptimized />
             ) : (
               <div key={idx} className="w-full aspect-square bg-slate-500">No Image</div>
             )

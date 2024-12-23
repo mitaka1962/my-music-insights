@@ -15,7 +15,7 @@ export default function SearchResultCard({
           alt={`${result.name}のジャケット画像`}
           width={64}
           height={64}
-          unoptimized={true} />
+          unoptimized />
       </div>              
       <div className="flex-auto min-w-0 h-[64px] flex flex-col py-1">
         <div className="font-medium truncate">{result.name}</div>
