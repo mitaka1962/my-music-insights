@@ -13,7 +13,6 @@ export async function getSpotifyData(endpoint: string) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: 'grant_type=client_credentials',
-    cache: 'no-store'
   });
   const accessTokenData = await accessTokenResponse.json();
   
