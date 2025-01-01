@@ -6,18 +6,17 @@ import { notFound } from "next/navigation";
 export default async function MylistPage({
   params,
 }: {
-  params: {
-    id: string;
-  }
+  params: Promise<{ id: string; }>
 }) {
-  const mylist = await getMylist(params.id);
+  const { id } = await params;
+  const mylist = await getMylist(id);
 
   if (!mylist) {
     notFound();
   }
 
   const trackList = await getSeveralTracksInfoData(mylist.tracks.map(({ trackId }) => trackId).join());
-  
+
   return (
     <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
       <main className="flex flex-col gap-6 px-6 py-8 min-h-full overflow-auto">

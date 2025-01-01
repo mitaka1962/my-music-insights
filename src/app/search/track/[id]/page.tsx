@@ -7,16 +7,17 @@ import CoverImage from "@/components/search/cover-image";
 import { notFound } from "next/navigation";
 
 export default async function TrackInfoPage({
-  params,
+  params
 }: {
-  params: { id: string; };
+  params: Promise<{ id: string; }>;
 }) {
-  const trackData = await getTrackInfoData(params.id);
+  const { id } = await params;
+  const trackData = await getTrackInfoData(id);
 
   // Error message
   if (!trackData) {
     notFound();
-  };
+  }
 
   // const infoList = [
   //   { name: 'Duration', value: convertTime(featuresData.duration_ms) },
