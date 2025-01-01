@@ -9,18 +9,17 @@ import TrackTable from "@/components/track-table";
 export default async function AlbumInfoPage({
   params,
 }: {
-  params: {
-    id: string;
-  }
+  params: Promise<{ id: string; }>
 }) {
-  const albumData = await getAlbumInfoData(params.id);
+  const { id } = await params;
+  const albumData = await getAlbumInfoData(id);
   // const trackIds = catalogData?.tracks.items.map((item: {id: string}) => item.id).join(',')
   // const tracksFeatures = await getSeveralTracksFeaturesData(trackIds ?? '');
 
   // Error message
   if (!albumData) {
     notFound();
-  };
+  }
 
   // insert album images
   const albumTrackList = albumData.tracks.items.map((track) => ({...track, album: albumData }));
