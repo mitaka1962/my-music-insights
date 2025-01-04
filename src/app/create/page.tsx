@@ -68,8 +68,8 @@ export default function Page() {
   );
 
   return (
-    <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)] h-full">
-      <div className="px-6 py-8 min-h-full overflow-y-auto">
+    <div className="h-full flex divide-x divide-base-content/15">
+      <div className="w-3/4 px-6 py-8 overflow-y-auto">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
           <h1 className="font-bold text-xl">マイリストを新規作成</h1>
           <button className="btn btn-smlr" onClick={handleClearButtonClick} disabled={isEmpty}>すべて削除</button>
@@ -109,7 +109,7 @@ export default function Page() {
           ) : null}
         </div>
       </div>
-      <div className="border-l border-base-content/15 overflow-y-scroll">
+      <div className="w-1/4">
         <SideSearch card={resultCard} albumButtonDisabled />
       </div>
     </div>

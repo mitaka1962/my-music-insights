@@ -4,10 +4,10 @@ import { Dispatch, SetStateAction, useRef } from "react";
 
 export default function SearchInput({
   spotifySearchParams,
-  setSpotifySearchParams,
+  searchClickHandler,
 }: {
   spotifySearchParams: SpotifySearchParams;
-  setSpotifySearchParams: Dispatch<SetStateAction<SpotifySearchParams>>;
+  searchClickHandler: (params: SpotifySearchParams) => void;
 }) {  
   const searchKeyword = useRef<HTMLInputElement>(null);
   const artistKeyword = useRef<HTMLInputElement>(null);
@@ -30,8 +30,8 @@ export default function SearchInput({
     if (artist) params['artist'] = artist;
     if (album) params['album'] = album;
 
-    setSpotifySearchParams(params);
-  }
+    searchClickHandler(params);
+  };
 
   return (
     <div className="flex flex-col px-2 py-4">

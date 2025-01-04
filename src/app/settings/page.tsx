@@ -13,9 +13,8 @@ export default function Page() {
   );
 }
 
-// disable SSR to prevent Hydration Error (caused by ThemeDropdown component)
-const SettingsList = dynamic(
-  () => import('@/components/settings/settings-list'),
+// disable SSR to prevent Hydration Error (caused by ThemeDropdown component to render a browser's theme setting)
+const SettingsList = dynamic(() => import('@/components/settings/settings-list'),
   {
     ssr: false,
     loading: () => <LoadingSpinner />,

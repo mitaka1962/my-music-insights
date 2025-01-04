@@ -9,11 +9,11 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-full grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
-      <div className="overflow-y-auto min-h-full px-6 py-8">
+    <div className="h-full flex divide-x divide-base-content/15">
+      <div className="w-3/4 overflow-y-auto px-6 py-8">
         {children}
       </div>
-      <div className="border-l border-base-content/15 overflow-y-scroll min-h-full">
+      <div className="w-1/4 overflow-y-auto">
         <SideSearch card={
           (result) => <SearchResultCardForSearch result={result} />
         } />
