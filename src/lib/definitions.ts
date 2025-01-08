@@ -1,4 +1,4 @@
-export type SearchResultType = 'track' | 'album'
+export type SpotifySearchResultType = 'track' | 'album'
 
 export interface Track {
   id: string;
@@ -29,7 +29,7 @@ export interface Album {
   external_urls: { spotify: string; };
 }
 
-export interface SearchResult {
+export interface SpotifySearchResult {
   tracks: { items: Track[]; };
   albums: { items: Album[]; };
 }

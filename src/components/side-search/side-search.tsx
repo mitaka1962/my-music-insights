@@ -1,71 +1,52 @@
-'use client'
+'use client';
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import clsx from "clsx";
-import { SearchResultType, SpotifySearchParams, CardRenderProp } from "@/lib/definitions";
+import { SpotifySearchResultType, SpotifySearchParams, CardRenderProp } from "@/lib/definitions";
 import SearchInput from "./search-input";
-import SearchResults from "./search-results";
-import { isEmpty } from "@/lib/utils";
-import useSWRImmutable from "swr/immutable";
-
-const fetcher = async (params: SpotifySearchParams) => {
-  const queryArray = [
-    params.q,
-    params.artist && `artist:${params.artist}`,
-    params.album && `album:${params.album}`,
-  ];
-  const query = queryArray.filter(Boolean).join(' ');
-  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);  
-  const results = await response.json();
-  return results;
-};
+import SearchResultsList from "./search-results-list";
 
 export default function SideSearch({
   card,
-  albumButtonDisabled = false,
+  disabledButtons = [],
 }: {
   card: CardRenderProp;
-  albumButtonDisabled?: boolean;
+  disabledButtons?: SpotifySearchResultType[];
 }) {
   const [spotifySearchParams, setSpotifySearchParams] = useState<SpotifySearchParams>({});
+  const [resultType, setResultType] = useState<SpotifySearchResultType>('track');
 
-  // Type of displayed search results: track or album
-  const [type, setType] = useState<SearchResultType>('track');
-
-  // Fetch data from the Spotify API's search endpoint (via my own API to run the fetch in a server side)
-  const {data, error, isLoading} = useSWRImmutable(
-    isEmpty(spotifySearchParams) ? null : spotifySearchParams,
-    fetcher
-  );  
+  const TypeButton = ({ type, label }: { type: SpotifySearchResultType, label: string }) => {
+    return (
+      <button
+        className={clsx("btn btn-sm rounded-full", {
+          "btn-neutral" : type === resultType,
+        })}
+        onClick={() => setResultType(type)}
+        disabled={disabledButtons.includes(type)}
+      >
+        {label}
+      </button>
+    );
+  };
 
   return (
-    <div className="flex flex-col min-h-full divide-y divide-base-content/15 px-1.5 py-4">
-      <div className="flex-none">
-        <SearchInput spotifySearchParams={spotifySearchParams} setSpotifySearchParams={setSpotifySearchParams} />
+    <div className="h-full min-h-full overflow-y-scroll">
+      <div className="flex flex-col divide-y divide-base-content/15 px-1.5 py-4">
+        <SearchInput
+          spotifySearchParams={spotifySearchParams}
+          onClickSearch={(params) => setSpotifySearchParams(params)} />
+        <div className="flex flex-col">
+          <div className="flex gap-2 mx-2 my-4">
+            <TypeButton type="track" label="トラック" />
+            <TypeButton type="album" label="アルバム" />
+          </div>
+          <SearchResultsList
+            spotifySearchParams={spotifySearchParams}
+            resultType={resultType}
+            card={card} />   
+        </div>
       </div>
-      <div className="grow flex flex-col">
-        <div className="flex-none flex gap-2 mx-2 my-4">
-          <button
-            className={clsx("btn btn-sm rounded-full", {
-              "btn-neutral" : type === 'track',
-            })}
-            onClick={() => setType('track')}>トラック</button>
-          <button 
-            className={clsx("btn btn-sm rounded-full", {
-              "btn-neutral" : type === 'album',
-            })}
-            disabled={albumButtonDisabled}
-            onClick={() => setType('album')}>アルバム</button>
-        </div>
-        <div className="grow flex flex-col">
-          <SearchResults
-            results={data}
-            isLoading={isLoading}
-            error={error}
-            type={type}
-            card={card} />
-        </div>
-      </div>      
     </div>
   );
 }

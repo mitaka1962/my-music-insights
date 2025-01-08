@@ -9,10 +9,10 @@ import TrackModalContent from "../modal/track-modal-content";
 
 export default function SearchResultCardForCreate({
   result,
-  handleAdd,
+  onClick,
 }: {
   result: Track;
-  handleAdd: (track: Track) => void;
+  onClick: (track: Track) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,7 +28,7 @@ export default function SearchResultCardForCreate({
       >
         <TrackModalContent item={result} />
         <ModalActions>
-          <button className="btn btn-smlr btn-neutral" onClick={() => handleAdd(result)}>追加する</button>
+          <button className="btn btn-smlr btn-neutral" onClick={() => onClick(result)}>追加する</button>
         </ModalActions>
       </Modal>
     </>

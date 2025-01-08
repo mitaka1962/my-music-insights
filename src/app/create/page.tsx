@@ -30,6 +30,7 @@ function reducer(state: Track[], action: { type: string, payload?: any }) {
 
 export default function Page() {
   const [selectedTrackList, dispatch] = useReducer(reducer, []);
+  
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const isEmpty = selectedTrackList.length === 0;
@@ -60,11 +61,11 @@ export default function Page() {
     }
   };
 
-  // render props for SideSearch component
+  // a render prop for SideSearch component
   const resultCard = (result: Track | Album) => (
     <SearchResultCardForCreate
       result={result as Track}
-      handleAdd={handleAdd} />
+      onClick={handleAdd} />
   );
 
   return (
@@ -96,21 +97,25 @@ export default function Page() {
           {selectedTrackList.map((item, idx) => (
             <TrackListItemWithModal key={item.id} item={item} idx={idx} handleRemove={handleRemove} />
           ))}
-          {selectedTrackList.length < TRACK_LIST_MAX ? (
-            <div className="tooltip" data-tip="楽曲を検索して追加しましょう！">
-              <div
-                aria-label="楽曲を検索して追加しましょう！"
-                tabIndex={0}
-                className="group grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
-              >
-                <PlusIcon className="w-6 text-base-content/30 group-hover:text-base-content/50" />
-              </div>
-            </div>            
-          ) : null}
+          {selectedTrackList.length < TRACK_LIST_MAX && <PlusPlaceholder />}
         </div>
       </div>
       <div className="w-1/4">
-        <SideSearch card={resultCard} albumButtonDisabled />
+        <SideSearch card={resultCard} disabledButtons={['album']} />
+      </div>
+    </div>
+  );
+}
+
+function PlusPlaceholder() {
+  return (
+    <div className="tooltip" data-tip="楽曲を検索して追加しましょう！">
+      <div
+        aria-label="楽曲を検索して追加しましょう！"
+        tabIndex={0}
+        className="group grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
+      >
+        <PlusIcon className="w-6 text-base-content/30 group-hover:text-base-content/50" />
       </div>
     </div>
   );

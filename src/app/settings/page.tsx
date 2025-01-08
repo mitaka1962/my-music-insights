@@ -1,5 +1,6 @@
 'use client';
 
+import LoadingSpinner from "@/components/loading-spinner";
 import dynamic from "next/dynamic";
 
 export default function Page() {
@@ -20,11 +21,3 @@ const SettingsList = dynamic(() => import('@/components/settings/settings-list')
     loading: () => <LoadingSpinner />,
   }
 );
-
-function LoadingSpinner() {
-  return (
-    <div className="grid place-items-center py-4">
-      <span className="loading loading-spinner"></span>
-    </div>
-  );
-}
