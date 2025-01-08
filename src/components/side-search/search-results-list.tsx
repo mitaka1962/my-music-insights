@@ -36,16 +36,16 @@ export default function SearchResultsList({
   const isLoadingMore = Boolean(size > 0 && data && typeof data[size - 1] === "undefined");
   const hasMore = Boolean(data);
 
+  // Reset the page size to 1 whenever the search parameters or type tab changes
+  useEffect(() => {
+    setSize(1);
+  }, [spotifySearchParams, resultType]);
+
   const handleEndReached = () => {
     if (!isLoadingMore && hasMore) {
       setSize(size => size + 1);
     }
   };
-
-  // Reset the page size to 1 whenever the search parameters or type tab changes
-  useEffect(() => {
-    setSize(1);
-  }, [spotifySearchParams, resultType]);
 
   if (isLoading)
     return <ResultSkeleton />;
@@ -61,9 +61,10 @@ export default function SearchResultsList({
 
   return (
     <InfiniteScroll
-      options={{ rootMargin: '0px 0px 300px 0px' }}
+      options={{ rootMargin: '0px 0px 100px 0px' }}   // (issue) a positive rootMargin doesn't work 
       onEndReached={handleEndReached}
       fallback={<LoadingSpinner />}
+      hasMore={hasMore}
     >
       {data?.map((item, index) => (
         <SearchResultsBlock

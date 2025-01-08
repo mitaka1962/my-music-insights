@@ -1,30 +1,30 @@
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { useEffect } from "react";
 
 export default function InfiniteScroll({
   children,
   options,
   onEndReached,
   fallback,
+  hasMore,
 }: {
   children: React.ReactNode;
   options: IntersectionObserverInit;
   onEndReached: () => void;
   fallback?: React.ReactNode;
+  hasMore: boolean;
 }) {
-  const { ref, inView } = useIntersectionObserver(options);  
-
-  useEffect(() => {
-    if (inView) {
-      onEndReached();
+  const { ref } = useIntersectionObserver(
+    options,
+    (entry) => {
+      if (entry.isIntersecting) onEndReached();
     }
-  }, [inView]);
+  );
 
   return (
     <>
       {children}
       <div className="min-h-8" ref={ref}>
-        {fallback}
+        {hasMore && fallback}
       </div>
     </>
   );
