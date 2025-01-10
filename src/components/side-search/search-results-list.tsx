@@ -61,9 +61,7 @@ export default function SearchResultsList({
     checkNext,
     { revalidateFirstPage: false },
   );
-
-  console.log({data, error, isLoading, size, isLoadingMore, hasMore});
-
+  
   // Reset the page size to 1 whenever the search parameters or type tab changes
   useEffect(() => {
     setSize(1);
