@@ -16,8 +16,6 @@ export function useCustomSWRInfinite<T, E>(
     size,
     setSize
   } = useSWRInfinite<T, E>(getKey, fetcher, config);
-  
-  console.log({data, error, isLoading, size});
 
   const isLoadingMore = Boolean(
     !error &&
