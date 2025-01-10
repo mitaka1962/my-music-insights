@@ -18,17 +18,17 @@ export default function Modal({
     if (open) {      
       const dialogElement = dialogRef.current;
       const handler = () => {
-        // hide dialog after close animation
+        // hide dialog after the close animation
         setTimeout(() => setOpen(false), 200);
       };
 
       dialogElement?.addEventListener('close', handler);
-      // delay to make sure that open animation runs
+      // delay to make sure the open animation runs
       setTimeout(() => dialogElement?.showModal(), 1);
 
       return () => {
         dialogElement?.removeEventListener('close', handler)
-      }
+      };
     }
   }, [open, setOpen]);
   

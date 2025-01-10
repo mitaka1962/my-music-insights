@@ -4,6 +4,13 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import SideNav from "@/components/side-nav";
 import ProgressBarProvider from "@/components/progress-bar-provider";
+import { SWRConfig, SWRConfiguration } from "swr";
+
+const SWROptions: SWRConfiguration = {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+  shouldRetryOnError: false,
+};
 
 export const metadata: Metadata = {
   title: "MyMusic Insights",
@@ -21,14 +28,16 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider>
           <ProgressBarProvider>
-            <div className="h-screen flex">
-              <div className="flex-none w-56 h-full">
-                <SideNav />
+            <SWRConfig value={SWROptions}>
+              <div className="h-screen flex">
+                <div className="flex-none w-56 h-full">
+                  <SideNav />
+                </div>
+                <div className="flex-auto min-w-0 h-full overflow-y-auto">
+                  {children}
+                </div>
               </div>
-              <div className="flex-auto min-w-0 h-full overflow-y-auto">
-                {children}
-              </div>
-            </div>
+            </SWRConfig>
           </ProgressBarProvider>
         </ThemeProvider>
       </body>

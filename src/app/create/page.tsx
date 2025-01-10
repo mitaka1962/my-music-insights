@@ -30,6 +30,7 @@ function reducer(state: Track[], action: { type: string, payload?: any }) {
 
 export default function Page() {
   const [selectedTrackList, dispatch] = useReducer(reducer, []);
+  
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const isEmpty = selectedTrackList.length === 0;
@@ -60,16 +61,16 @@ export default function Page() {
     }
   };
 
-  // render props for SideSearch component
+  // a render prop for SideSearch component
   const resultCard = (result: Track | Album) => (
     <SearchResultCardForCreate
       result={result as Track}
-      handleAdd={handleAdd} />
+      onClick={handleAdd} />
   );
 
   return (
-    <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)] h-full">
-      <div className="px-6 py-8 min-h-full overflow-y-auto">
+    <div className="h-full flex divide-x divide-base-content/15">
+      <div className="w-3/4 px-6 py-8 overflow-y-auto">
         <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 border-b border-base-content/15 pb-4 items-center px-2">
           <h1 className="font-bold text-xl">マイリストを新規作成</h1>
           <button className="btn btn-smlr" onClick={handleClearButtonClick} disabled={isEmpty}>すべて削除</button>
@@ -96,21 +97,25 @@ export default function Page() {
           {selectedTrackList.map((item, idx) => (
             <TrackListItemWithModal key={item.id} item={item} idx={idx} handleRemove={handleRemove} />
           ))}
-          {selectedTrackList.length < TRACK_LIST_MAX ? (
-            <div className="tooltip" data-tip="楽曲を検索して追加しましょう！">
-              <div
-                aria-label="楽曲を検索して追加しましょう！"
-                tabIndex={0}
-                className="group grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
-              >
-                <PlusIcon className="w-6 text-base-content/30 group-hover:text-base-content/50" />
-              </div>
-            </div>            
-          ) : null}
+          {selectedTrackList.length < TRACK_LIST_MAX && <PlusPlaceholder />}
         </div>
       </div>
-      <div className="border-l border-base-content/15 overflow-y-scroll">
-        <SideSearch card={resultCard} albumButtonDisabled />
+      <div className="w-1/4">
+        <SideSearch card={resultCard} disabledButtons={['album']} />
+      </div>
+    </div>
+  );
+}
+
+function PlusPlaceholder() {
+  return (
+    <div className="tooltip" data-tip="楽曲を検索して追加しましょう！">
+      <div
+        aria-label="楽曲を検索して追加しましょう！"
+        tabIndex={0}
+        className="group grid place-items-center border-dashed border-2 border-base-content/20 h-10 rounded-xl my-1 hover:border-base-content/40"
+      >
+        <PlusIcon className="w-6 text-base-content/30 group-hover:text-base-content/50" />
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 import { SpotifySearchParams } from "@/lib/definitions";
 import { MagnifyingGlassIcon, Square2StackIcon, UsersIcon } from "@heroicons/react/24/outline";
-import { Dispatch, SetStateAction, useRef } from "react";
+import { useRef } from "react";
 
 export default function SearchInput({
   spotifySearchParams,
-  setSpotifySearchParams,
+  onClickSearch,
 }: {
   spotifySearchParams: SpotifySearchParams;
-  setSpotifySearchParams: Dispatch<SetStateAction<SpotifySearchParams>>;
+  onClickSearch: (params: SpotifySearchParams) => void;
 }) {  
   const searchKeyword = useRef<HTMLInputElement>(null);
   const artistKeyword = useRef<HTMLInputElement>(null);
@@ -19,7 +19,6 @@ export default function SearchInput({
     { label: 'Album', icon: Square2StackIcon, placeholder: 'Album name', value: spotifySearchParams?.['album'], ref: albumKeyword},
   ];
 
-  // Search button's click event handler
   const handleSearch = () => {
     const query = searchKeyword.current?.value.trim();
     const artist = artistKeyword.current?.value.trim();
@@ -30,8 +29,8 @@ export default function SearchInput({
     if (artist) params['artist'] = artist;
     if (album) params['album'] = album;
 
-    setSpotifySearchParams(params);
-  }
+    onClickSearch(params);
+  };
 
   return (
     <div className="flex flex-col px-2 py-4">

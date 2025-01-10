@@ -7,7 +7,7 @@ import { ZodError } from "zod";
 
 export async function addMylist(data: FormSchema): Promise<{ errors: string[] }> {
   try {
-    // Form validation (and userName is transformed to a default userName if it is an empty string)
+    // Form validation (and userName is transformed to a default userName if it's an empty string)
     const validResult = formSchema.parse({
       trackId: data.trackId,
       listName: data.listName,

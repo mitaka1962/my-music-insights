@@ -53,8 +53,8 @@ export function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function isEmpty(obj: SpotifySearchParams): boolean {
-  return !obj.q && !obj.artist && !obj.album;
+export function isEmpty(obj: Object): boolean {
+  return Object.keys(obj).length === 0;
 }
 
 export function translateThemeName(theme: string | undefined): string {

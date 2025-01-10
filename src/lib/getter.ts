@@ -15,6 +15,12 @@ export async function getSpotifyData(endpoint: string) {
     body: 'grant_type=client_credentials',
     cache: 'no-store',
   });
+
+  if (!accessTokenResponse.ok) {
+    const info = await accessTokenResponse.json();
+    throw new Error(`Spotify Web API Error (${info.error})`);
+  }
+
   const accessTokenData = await accessTokenResponse.json();
   
   // send a request for Spotify Web API
@@ -27,45 +33,39 @@ export async function getSpotifyData(endpoint: string) {
 
   if (!response.ok) {
     const info = await response.json();
-    throw new Error(`${info.error.status}: ${info.error.message}`);
+    throw new Error(`Spotify Web API Error (${info.error.message})`);
   }
 
   const data = await response.json();
   return data;
 }
 
-export async function getTrackInfoData(id: string): Promise<Track | null> {
-  if (!id) return null;
+export async function getTrackInfoData(id: string): Promise<Track> {
   const data = await getSpotifyData(`/tracks/${id}`);
   return data;
 }
 
-export async function getSeveralTracksInfoData(ids: string): Promise<Track[] | null> {
-  if (!ids) return null;
+export async function getSeveralTracksInfoData(ids: string): Promise<Track[]> {
   const data = await getSpotifyData(`/tracks?ids=${ids}`);
   return data.tracks;
 }
 
-export async function getSeveralTracksImageUrls(ids: string): Promise<string[] | null> {
+export async function getSeveralTracksImageUrls(ids: string): Promise<string[]> {
   const data = await getSeveralTracksInfoData(ids);
-  if (!data) return null;
   return data.map(item => item.album.images[1]?.url);
 }
 
-export async function getAlbumInfoData(id: string): Promise<Album | null> {
-  if (!id) return null;
+export async function getAlbumInfoData(id: string): Promise<Album> {
   const data = await getSpotifyData(`/albums/${id}`);
   return data;
 }
 
-// export async function getTrackFeaturesData(id: string): Promise<AudioFeatures | null> {
-//   if (!id) return null;
+// export async function getTrackFeaturesData(id: string): Promise<AudioFeatures> {
 //   const data = await getSpotifyData(`/audio-features/${id}`);
 //   return data;
 // }
 
-// export async function getSeveralTracksFeaturesData(ids: string): Promise<SeveralAudioFeatures | null> {
-//   if (!ids) return null;
+// export async function getSeveralTracksFeaturesData(ids: string): Promise<SeveralAudioFeatures> {
 //   const data = await getSpotifyData(`/audio-features?ids=${ids}`);
 //   return data;
 // }
