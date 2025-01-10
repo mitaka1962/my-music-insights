@@ -1,32 +1,33 @@
-import { Album, SpotifySearchResult, CardRenderProp, SpotifySearchResultType, Track } from "@/lib/definitions";
+import { Album, SpotifySearchResult, CardRenderProp, SpotifySearchResultType, Track, SpotifyAlbumSearchResult, SpotifyTrackSearchResult } from "@/lib/definitions";
 import { Fragment } from "react";
 
 export default function SearchResultsBlock({
   results,
-  type,
+  resultType,
   card,
 }: {
-  results: SpotifySearchResult | undefined;
-  type: SpotifySearchResultType;
+  results: SpotifySearchResult;
+  resultType: SpotifySearchResultType;
   card: CardRenderProp;
 }) {
-  const items = (type === 'track') ? results?.tracks.items : results?.albums.items;
+  let items;
+  if (resultType === 'track') {
+    items = (results as SpotifyTrackSearchResult).tracks.items;
+  } else {
+    items = (results as SpotifyAlbumSearchResult).albums.items;
+  }
 
   return (items?.length === 0) ? (
-    <DisplayMessage msg={'No results found... \u{1F622}'} />
+    <div className="flex flex-col items-center text-base-content/80 p-2 gap-2">
+      <p className="text-sm">{'検索結果が見つかりませんでした… \u{1F622}'}</p>
+    </div>
   ) : (
     <>
       {items?.map((item: Track | Album | null) => (
-        item && <Fragment key={item.id}>{card(item)}</Fragment>
+        item && (
+          <Fragment key={item.id}>{card(item)}</Fragment>
+        )
       ))}
     </>
   );
-}
-
-function DisplayMessage({ msg }: { msg: string }) {
-  return (
-    <div className="text-base-content/80 h-16 w-full flex items-center justify-center">
-      {msg}
-    </div>
-  );  
 }

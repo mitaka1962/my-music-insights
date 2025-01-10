@@ -15,6 +15,12 @@ export async function getSpotifyData(endpoint: string) {
     body: 'grant_type=client_credentials',
     cache: 'no-store',
   });
+
+  if (!accessTokenResponse.ok) {
+    const info = await accessTokenResponse.json();
+    throw new Error(`Spotify Web API Error (${info.error})`);
+  }
+
   const accessTokenData = await accessTokenResponse.json();
   
   // send a request for Spotify Web API
@@ -27,7 +33,7 @@ export async function getSpotifyData(endpoint: string) {
 
   if (!response.ok) {
     const info = await response.json();
-    throw new Error(`${info.error.status}: ${info.error.message}`);
+    throw new Error(`Spotify Web API Error (${info.error.message})`);
   }
 
   const data = await response.json();

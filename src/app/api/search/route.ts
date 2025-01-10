@@ -2,7 +2,8 @@ import { getSpotifyData } from '@/lib/getter';
 import { type NextRequest } from 'next/server'
 
 /* APIs for fetching data from client components */
-const PAGE_SIZE = 50;
+
+const LIMIT = 50;
 export async function GET(request: NextRequest) {  
   const searchParams = request.nextUrl.searchParams;
   const q = searchParams.get('q');
@@ -11,15 +12,25 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type');
   const page = Number(searchParams.get('page'));
 
-  const queryArray = [
-    q,
-    artist && `artist:${artist}`,
-    album && `album:${album}`,
-  ];
-  const query = queryArray.filter(Boolean).join(' ');
+  const queryArray = [];
+  if (q) queryArray.push(q);
+  if (artist) queryArray.push(`artist:${artist}`);
+  if (album) queryArray.push(`album:${album}`);
+  const query = queryArray.join(' ');
 
-  const results = await getSpotifyData(
-    `/search?q=${encodeURIComponent(query)}&type=${type}&limit=${PAGE_SIZE}&offset=${page * PAGE_SIZE}&market=JP`
-  );
-  return Response.json(results);
+  try {
+    const results = await getSpotifyData(
+      `/search?q=${encodeURIComponent(query)}&type=${type}&limit=${LIMIT}&offset=${page * LIMIT}&market=JP`
+    );
+    return Response.json(results);
+  } catch (error) {
+    if (error instanceof Error) {
+      return Response.json({
+        status: 500,
+        message: error.message,
+      }, {
+        status: 500,
+      });
+    }
+  }
 }

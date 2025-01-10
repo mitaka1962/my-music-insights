@@ -9,7 +9,6 @@ export interface Track {
   }>;
   type: string;
   duration_ms: number;
-  // preview_url: string;
   external_urls: { spotify: string; };
 }
 
@@ -29,10 +28,26 @@ export interface Album {
   external_urls: { spotify: string; };
 }
 
-export interface SpotifySearchResult {
-  tracks: { items: Track[]; };
-  albums: { items: Album[]; };
+export interface SpotifyPagingObject<T> {
+  href: string;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: string;
+  total: number;
+  items: T[];
 }
+
+export interface SpotifyTrackSearchResult {
+  tracks: SpotifyPagingObject<Track>;
+}
+
+export interface SpotifyAlbumSearchResult {
+  albums: SpotifyPagingObject<Album>;
+}
+
+export type SpotifySearchResult =
+  SpotifyTrackSearchResult | SpotifyAlbumSearchResult;
 
 export interface NormalizedAudioFeatures {
   acousticness: number

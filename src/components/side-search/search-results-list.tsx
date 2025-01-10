@@ -1,13 +1,20 @@
-import { SpotifySearchResultType, SpotifySearchParams, SpotifySearchResult, CardRenderProp } from "@/lib/definitions";
+import { SpotifySearchResultType, SpotifySearchParams, SpotifySearchResult, CardRenderProp, SpotifyTrackSearchResult, SpotifyAlbumSearchResult } from "@/lib/definitions";
 import { isEmpty } from "@/lib/utils";
 import InfiniteScroll from "./infinite-scroll";
 import SearchResultsBlock from "./search-results-block";
-import useSWRInfinite from "swr/infinite";
 import { useEffect } from "react";
-import LoadingSpinner from "@/components/loading-spinner";
+import { useCustomSWRInfinite } from "@/hooks/use-custom-swr-infinite";
 
-const fetcher = (url: string): Promise<SpotifySearchResult> =>
-  fetch(url).then((res) => res.json());
+const fetcher = async (url: string): Promise<SpotifySearchResult> =>{
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error('An error occurred while fetching the data.');
+  };
+
+  const result = await response.json();
+  return result;
+}
 
 export default function SearchResultsList({
   spotifySearchParams,
@@ -18,23 +25,44 @@ export default function SearchResultsList({
   resultType: SpotifySearchResultType;
   card: CardRenderProp;
 }) {
-  const { data, error, isLoading, size, setSize } = useSWRInfinite(
-    (pageIndex: number) => {
-      if (isEmpty(spotifySearchParams)) return null;
-  
-      const searchParams = new URLSearchParams(spotifySearchParams);
-      searchParams.append('type', resultType);
-      searchParams.append('page', pageIndex.toString());
+  // this function returns an argument(url) for the fetcher  
+  const getKey = (pageIndex: number) => {
+    if (isEmpty(spotifySearchParams)) return null;
 
-      /* Fetch data from the Spotify API's search endpoint 
-      (via my app's API to run the fetch on the server) */
-      return `/api/search?${searchParams.toString()}`;
-    },
+    const searchParams = new URLSearchParams(spotifySearchParams);
+    searchParams.append('type', resultType);
+    searchParams.append('page', pageIndex.toString());
+
+    // Use my app's API endopoint to fetch data from Spotify's search API
+    // so that you can use the environment variables on the server
+    return `/api/search?${searchParams.toString()}`;
+  };
+
+  const checkNext = (data: SpotifySearchResult) => {
+    if (resultType === 'track') {
+      return Boolean((data as SpotifyTrackSearchResult).tracks.next);
+    } else {
+      return Boolean((data as SpotifyAlbumSearchResult).albums.next);
+    }
+  };
+
+  const {
+    data,
+    error,
+    isLoading,
+    mutate,
+    size,
+    setSize,
+    isLoadingMore,
+    hasMore
+  } = useCustomSWRInfinite<SpotifySearchResult, Error>(
+    getKey,
     fetcher,
-    { revalidateFirstPage: false }
+    checkNext,
+    { revalidateFirstPage: false },
   );
-  const isLoadingMore = Boolean(size > 0 && data && typeof data[size - 1] === "undefined");
-  const hasMore = Boolean(data);
+
+  console.log({data, error, isLoading, size, isLoadingMore, hasMore});
 
   // Reset the page size to 1 whenever the search parameters or type tab changes
   useEffect(() => {
@@ -47,33 +75,35 @@ export default function SearchResultsList({
     }
   };
 
-  if (isLoading)
-    return <ResultSkeleton />;
+  const handleClickError = () => {
+    // only revalidate the last page
+    // (the first argument is required for bound mutation)
+    mutate(data, {
+      revalidate: (_, key) => key === getKey(size - 1)
+    })
+  };
 
-  if (error) {
-    console.log(error.message);
-    return (
-      <div className="text-base-content/80 h-16 w-full flex items-center justify-center">
-        {'Error has occurred! \u{1F62E}'}
-      </div>
-    )
-  }
+  // Initial loading
+  if (isLoading) return <ResultSkeleton />;
 
   return (
-    <InfiniteScroll
-      options={{ rootMargin: '0px 0px 100px 0px' }}   // (issue) a positive rootMargin doesn't work 
-      onEndReached={handleEndReached}
-      fallback={<LoadingSpinner />}
-      hasMore={hasMore}
-    >
-      {data?.map((item, index) => (
-        <SearchResultsBlock
-          key={index}
-          results={item}
-          type={"track"}
-          card={card} />
-      ))}
-    </InfiniteScroll>
+    <>
+      <InfiniteScroll
+        options={{ rootMargin: '0px 0px 100px 0px' }}   // (issue) a positive rootMargin doesn't work
+        error={error}
+        hasMore={hasMore}
+        onEndReached={handleEndReached}
+        onClickError={handleClickError}
+      >
+        {data?.map((item, index) => (
+          <SearchResultsBlock
+            key={index}
+            results={item}
+            resultType={resultType}
+            card={card} />
+        ))}
+      </InfiniteScroll>
+    </>    
   );
 }
 
@@ -89,7 +119,7 @@ function ResultSkeleton() {
 
 function SkeletonItem() {
   return (
-    <div className="flex gap-3 py-2 px-2">
+    <div className="flex gap-3 p-2">
       <div className="skeleton w-[64px] h-[64px] rounded-md"></div>
       <div className="flex-auto min-w-0 h-[64px] flex flex-col py-1 gap-2">
         <div className="skeleton w-full h-4"></div>
