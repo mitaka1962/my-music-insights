@@ -62,13 +62,16 @@ export default function SearchResultsList({
     { revalidateFirstPage: false },
   );
   
-  // Reset the page size to 1 whenever the search parameters or type tab changes
+  // Reset the page size to 1 whenever the search button clicked or type tab changes,
+  // but only if there is cached data (which may have a length greater than 1)
   useEffect(() => {
-    setSize(1);
+    if (!isLoading) {
+      setSize(1);
+    }    
   }, [spotifySearchParams, resultType]);
 
   const handleEndReached = () => {
-    if (!isLoadingMore && hasMore) {
+    if (!isLoadingMore && hasMore) {      
       setSize(size => size + 1);
     }
   };
@@ -81,9 +84,6 @@ export default function SearchResultsList({
     })
   };
 
-  // Initial loading
-  if (isLoading) return <ResultSkeleton />;
-
   return (
     <>
       <InfiniteScroll
@@ -93,6 +93,7 @@ export default function SearchResultsList({
         onEndReached={handleEndReached}
         onClickError={handleClickError}
       >
+        {isLoading && <ResultSkeleton />}
         {data?.map((item, index) => (
           <SearchResultsBlock
             key={index}

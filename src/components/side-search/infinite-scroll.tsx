@@ -1,6 +1,5 @@
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import { useRef, useCallback } from "react";
 import LoadingSpinner from "@/components/loading-spinner";
 
 export default function InfiniteScroll({
@@ -20,17 +19,33 @@ export default function InfiniteScroll({
   options?: IntersectionObserverInit;
   fallback?: React.ReactNode;
 }) {
-  const { ref } = useIntersectionObserver(
-    options,
-    (entry) => {
-      if (entry.isIntersecting) onEndReached?.();
-    }
-  );
+  // Store the callback in a `ref` to access the latest instance
+  // inside the `useCallback` without triggering a rerender
+  const onEndReachedRef = useRef(onEndReached);
+  onEndReachedRef.current = onEndReached;
+
+  // read primitive values from options to prevent unnecessary rerenders
+  const { root, rootMargin, threshold } = options ?? {};
+
+  // ref callback
+  const initIntersectionObserver = useCallback((node: HTMLDivElement | null) => {    
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        onEndReachedRef.current()
+      };
+    }, { root, rootMargin, threshold });
+
+    if (node) observer.observe(node);
+
+    return () => {
+      if (node) observer.unobserve(node);
+    };
+  }, [root, rootMargin, threshold]);
 
   return (
     <>
       {children}
-      <div ref={ref}></div>
+      <div ref={initIntersectionObserver}></div>
       {error && (
         <ReloadComponent onClickError={onClickError} />
       )}
