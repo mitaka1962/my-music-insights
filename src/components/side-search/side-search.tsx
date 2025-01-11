@@ -44,7 +44,7 @@ export default function SideSearch({
           <SearchResultsList
             spotifySearchParams={spotifySearchParams}
             resultType={resultType}
-            card={card} />   
+            card={card} />
         </div>
       </div>
     </div>

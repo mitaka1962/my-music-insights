@@ -9,7 +9,7 @@ export default function SearchResultCard({
 }) {
   return (
     <div className="flex gap-3 py-2 px-2 rounded hover:bg-base-content/20 hover:opacity-80 active:opacity-60">
-      <div className="flex-none h-[64px] overflow-hidden aspect-square rounded-sm border border-base-content/5">
+      <div className="flex-none h-[64px] overflow-hidden aspect-square rounded border border-base-content/5">
         <Image
           src={getSpotifyMinImageUrl(result)}
           alt={`${result.name}のジャケット画像`}
