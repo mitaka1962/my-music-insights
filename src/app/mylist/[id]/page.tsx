@@ -1,5 +1,6 @@
 import TrackTable from "@/components/track-table";
-import { getMylist, getSeveralTracksInfoData } from "@/lib/getter";
+import { getMylist } from "@/lib/data";
+import { getSeveralTracksInfoData } from "@/lib/getter";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { notFound } from "next/navigation";
 

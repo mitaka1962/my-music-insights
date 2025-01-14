@@ -1,5 +1,4 @@
-import { Album, MylistCardData, Track } from "@/lib/definitions";
-import prisma from "@/lib/prisma";
+import { Album, Track } from "@/lib/definitions";
 
 export async function getSpotifyData(endpoint: string) {
   const client_id = process.env.CLIENT_ID;
@@ -69,58 +68,3 @@ export async function getAlbumInfoData(id: string): Promise<Album> {
 //   const data = await getSpotifyData(`/audio-features?ids=${ids}`);
 //   return data;
 // }
-
-export async function getMylist(id: string) {
-  const mylist = await prisma.mylist.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      name: true,
-      user: true,
-      createdAt: true,
-      tracks: {
-        select: {
-          trackId: true,
-        },
-        orderBy: {
-          position: 'asc',
-        },
-      },
-    },
-  });
-  
-  return mylist;
-}
-
-// return 16 mylists (16 * 3 images < 50) 
-export async function getBatchMylists(): Promise<MylistCardData[]> {
-  const mylists = await prisma.mylist.findMany({
-    select: {
-      id: true,
-      name: true,
-      user: {
-        select: {
-          name: true,
-          imageColor: true,
-        },
-      },
-      createdAt: true,
-      tracks: {
-        select: {
-          trackId: true,
-        },
-        orderBy: {
-          position: 'asc',
-        },
-        take: 3,
-      },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 16,
-  });
-
-  return mylists;
-}

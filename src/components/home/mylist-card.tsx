@@ -36,7 +36,7 @@ export default function MylistCard({
           {imageUrls.map((url, idx) => (
             url ? (
               <Image
-                key={idx}
+                key={url + idx}
                 src={url}
                 alt={`ジャケット画像${idx + 1}`}
                 width={300}

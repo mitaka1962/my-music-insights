@@ -1,4 +1,4 @@
-import { getMylist, getTrackInfoData } from "@/lib/getter";
+import { getTrackInfoData } from "@/lib/getter";
 import FeaturesInfo from "@/components/search/features-info";
 import { convertTime, getKeyString } from "@/lib/utils";
 import PreviewButton from "@/components/search/preview-button";
