@@ -1,11 +1,9 @@
 import SharedMylists from "@/components/home/shared-mylists";
-import SkeletonMylists from "@/components/home/skeleton-mylists";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export default function Page() {
   return (
-    <div className="px-8 py-10 grid grid-cols-1 gap-8">
+    <div className="px-8 py-10 grid grid-cols-1 gap-8 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 gap-2 bg-base-200/70 p-8 rounded-xl">
         <h1 className="text-2xl font-bold mb-4">MyMusic Insightsとは</h1>
         <p className="text-sm text-base-content/70">MyMusic Insightsは、お気に入りの楽曲をみんなと共有できるWebサイトです。自分好みの曲を集めたマイリストを作成して、みんなに公開してみましょう。</p>
@@ -15,9 +13,7 @@ export default function Page() {
       <div className="grid grid-cols-1 gap-6">
         <h2 className="font-bold text-xl px-2 border-b border-base-content/15 pb-4">みんなのマイリスト</h2>
         <div className="px-2">
-          <Suspense fallback={<SkeletonMylists />}>
-            <SharedMylists />
-          </Suspense>
+          <SharedMylists />
         </div>        
       </div>
     </div>

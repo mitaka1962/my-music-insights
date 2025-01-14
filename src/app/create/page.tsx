@@ -95,7 +95,11 @@ export default function Page() {
         </div>
         <div className="grid grid-cols-1 auto-rows-min gap-2 px-2 py-4">
           {selectedTrackList.map((item, idx) => (
-            <TrackListItemWithModal key={item.id} item={item} idx={idx} handleRemove={handleRemove} />
+            <TrackListItemWithModal
+              key={item.id}
+              item={item}
+              idx={idx}
+              handleRemove={handleRemove} />
           ))}
           {selectedTrackList.length < TRACK_LIST_MAX && <PlusPlaceholder />}
         </div>

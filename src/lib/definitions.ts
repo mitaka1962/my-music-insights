@@ -80,15 +80,37 @@ export type SpotifySearchParams = {
 
 export type CardRenderProp = (result: Track | Album) => React.ReactNode;
 
-export interface MylistCardData {
-  id: string;
-  name: string;
+export interface MylistData {
   user: {
+    id: string;
     name: string;
     imageColor: string;
   };
-  createdAt: Date;
   tracks: {
+    position: number;
+    trackId: string;
+    mylistId: string;
+  }[];
+  createdAt: Date;
+  id: string;
+  name: string;
+  userId: string;
+}
+
+export interface MylistCardData {
+  id: string;
+  name: string;
+  userId: string;
+  createdAt: Date;
+  user: {
+    id: string;
+    name: string;
+    imageColor: string;
+  };
+  tracks: {
+    position: number;
+    mylistId: string;
     trackId: string;
   }[];
+  imageUrls?: string[]; 
 }

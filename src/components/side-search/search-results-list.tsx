@@ -7,12 +7,13 @@ import { useCustomSWRInfinite } from "@/hooks/use-custom-swr-infinite";
 
 const fetcher = async (url: string): Promise<SpotifySearchResult> =>{
   const response = await fetch(url);
+  const result = await response.json();
 
   if (!response.ok) {
-    throw new Error('An error occurred while fetching the data.');
+    console.error('Failed to fetch the search result:', result.message);
+    throw new Error('Failed to fetch the search result');
   };
 
-  const result = await response.json();
   return result;
 }
 
@@ -38,7 +39,7 @@ export default function SearchResultsList({
     return `/api/search?${searchParams.toString()}`;
   };
 
-  const checkNext = (data: SpotifySearchResult) => {
+  const checkHasNext = (data: SpotifySearchResult) => {
     if (resultType === 'track') {
       return Boolean((data as SpotifyTrackSearchResult).tracks.next);
     } else {
@@ -58,7 +59,7 @@ export default function SearchResultsList({
   } = useCustomSWRInfinite<SpotifySearchResult, Error>(
     getKey,
     fetcher,
-    checkNext,
+    checkHasNext,
     { revalidateFirstPage: false },
   );
   
@@ -81,7 +82,7 @@ export default function SearchResultsList({
     // (the first argument is required for bound mutation)
     mutate(data, {
       revalidate: (_, key) => key === getKey(size - 1)
-    })
+    });
   };
 
   return (
@@ -94,13 +95,18 @@ export default function SearchResultsList({
         onClickError={handleClickError}
       >
         {isLoading && <ResultSkeleton />}
-        {data?.map((item, index) => (
-          <SearchResultsBlock
-            key={index}
-            results={item}
-            resultType={resultType}
-            card={card} />
-        ))}
+        {data?.map((batch) => {
+          const results = (resultType === 'track') ?
+            (batch as SpotifyTrackSearchResult).tracks :
+            (batch as SpotifyAlbumSearchResult).albums;
+
+          return (
+            <SearchResultsBlock
+              key={results.href}
+              results={results.items}
+              card={card} />
+          );
+        })}
       </InfiniteScroll>
     </>    
   );

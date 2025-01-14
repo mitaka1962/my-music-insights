@@ -4,6 +4,7 @@ import { type NextRequest } from 'next/server'
 /* APIs for fetching data from client components */
 
 const LIMIT = 50;
+
 export async function GET(request: NextRequest) {  
   const searchParams = request.nextUrl.searchParams;
   const q = searchParams.get('q');
@@ -24,13 +25,11 @@ export async function GET(request: NextRequest) {
     );
     return Response.json(results);
   } catch (error) {
-    if (error instanceof Error) {
-      return Response.json({
-        status: 500,
-        message: error.message,
-      }, {
-        status: 500,
-      });
-    }
+    return Response.json({
+      status: 500,
+      error,
+    }, {
+      status: 500,
+    });
   }
 }

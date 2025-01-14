@@ -4,7 +4,7 @@ import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteKeyLoader } from "
 export function useCustomSWRInfinite<T, E>(
   getKey: SWRInfiniteKeyLoader,
   fetcher: BareFetcher<T> | null,
-  checkNext: (data: T) => boolean,
+  checkHasNext: (lastData: T) => boolean,
   config?: SWRInfiniteConfiguration,
 ) {
   const {
@@ -27,7 +27,7 @@ export function useCustomSWRInfinite<T, E>(
     !error &&
     data &&
     data.length > 0 &&
-    checkNext(data[data.length - 1])
+    checkHasNext(data[data.length - 1])
   );
 
   return {
