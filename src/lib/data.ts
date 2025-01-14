@@ -1,18 +1,13 @@
 import prisma from "@/lib/prisma";
 
-export async function getMylist(id: string) {
+export async function fetchMylist(id: string) {
   const mylist = await prisma.mylist.findUnique({
     where: {
       id,
     },
-    select: {
-      name: true,
+    include: {
       user: true,
-      createdAt: true,
       tracks: {
-        select: {
-          trackId: true,
-        },
         orderBy: {
           position: 'asc',
         },

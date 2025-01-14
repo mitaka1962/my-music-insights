@@ -1,8 +1,10 @@
-import TrackTable from "@/components/track-table";
-import { getMylist } from "@/lib/data";
-import { getSeveralTracksInfoData } from "@/lib/getter";
+import LoadingSpinner from "@/components/loading-spinner";
+import MylistTrackList from "@/components/mylist/MylistTrackList";
+import { fetchMylist } from "@/lib/data";
+import { MylistData } from "@/lib/definitions";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function MylistPage({
   params,
@@ -10,13 +12,11 @@ export default async function MylistPage({
   params: Promise<{ id: string; }>
 }) {
   const { id } = await params;
-  const mylist = await getMylist(id);
+  const mylist: MylistData | null = await fetchMylist(id);
 
   if (!mylist) {
     notFound();
   }
-
-  const trackList = await getSeveralTracksInfoData(mylist.tracks.map(({ trackId }) => trackId).join());
 
   return (
     <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
@@ -31,7 +31,9 @@ export default async function MylistPage({
             <span className="text-base-content/70 text-sm text-end">作成日 : {mylist.createdAt.toLocaleDateString('ja-JP')}</span>
           </div>
         </div>
-        {trackList ? <TrackTable trackList={trackList} /> : <p className="text-error">Error has occured...</p>}
+        <Suspense fallback={<LoadingSpinner />}>
+          <MylistTrackList mylist={mylist} />
+        </Suspense>        
       </main>
     </div>
   );
