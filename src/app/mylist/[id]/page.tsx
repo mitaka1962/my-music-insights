@@ -1,5 +1,5 @@
 import LoadingSpinner from "@/components/loading-spinner";
-import MylistTrackList from "@/components/mylist/MylistTrackList";
+import MylistTrackList from "@/components/mylist/mylist-track-list";
 import { fetchMylist } from "@/lib/data";
 import { MylistData } from "@/lib/definitions";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
