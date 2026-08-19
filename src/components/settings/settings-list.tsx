@@ -1,5 +1,6 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import ThemeDropdown from "./theme-dropdown";
+import { myBlogUrl } from "@/lib/utils";
 
 export default function SettingsList() {
   return (
@@ -10,7 +11,7 @@ export default function SettingsList() {
       </div>
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-bold">About</h2>
-        <a className="btn btn-outline rounded-full" href="https://mitaka.boo.jp/" target="_blank">
+        <a className="btn btn-outline rounded-full" href={myBlogUrl} target="_blank">
           Blog
           <ArrowTopRightOnSquareIcon className="w-5" />
         </a>

@@ -1,5 +1,7 @@
 import { Album, SpotifySearchParams, Track } from '@/lib/definitions'
 
+export const myBlogUrl = 'https://hikigaeru.com'
+
 export function convertTime(msec: number): string {
   const totalSec = Math.floor(msec / 1000);
   const min = Math.floor(totalSec / 60);
